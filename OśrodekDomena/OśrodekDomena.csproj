@@ -46,6 +46,7 @@
     <Compile Include="Operat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepozytoriumOperatów.cs" />
+    <Compile Include="Rozdzielczość.cs" />
     <Compile Include="Rozszerzenia\DokumentRozszerzenia.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.IO;
 using OśrodekDomena;
 using OśrodekPliki;
 using OśrodekFirebird;
 
 namespace OperatDo
 {
+    /// <summary>
+    /// OperatDo.exe Operaty.json Pliki.json folder[:asId]
+    /// </summary>
     class Program
     {
         static readonly string _searchPattern = "*.jpg";
         RepozytoriumOperatów _operaty = new RepozytoriumOperatów();
-        OśrodekConfig _dbConfig = OśrodekConfig.Wczytaj(fileName: @"Samples\Osrodek.json");
-        OśrodekConfig _blobConfig = OśrodekConfig.Wczytaj(fileName: @"Samples\OsrodekBlob.json");
+        OśrodekConfig _operatyConfig = OśrodekConfig.Wczytaj(fileName: @"Osrodek.json");
+        OśrodekConfig _plikiConfig = OśrodekConfig.Wczytaj(fileName: @"OsrodekPliki.json");
 
         static void Main(string[] args)
         {
             var program = new Program();
-            Console.WriteLine("OśrodekOperaty v1.0-alfa, 20 grudnia 2016");
-            Console.WriteLine("Importuj zeskanowane operaty do bazy Ośrodka");
+            Console.WriteLine("OśrodekDo v1.0-beta, 23 grudnia 2016");
+            Console.WriteLine("Importuj zeskanowane operaty do bazy danych Ośrodka");
             program.WczytajPliki(_searchPattern);
             program.WczytajDokumenty();
             Console.WriteLine("Koniec.");
@@ -40,8 +41,8 @@ namespace OperatDo
 
         public void WczytajDokumenty()
         {
-            var db = new OśrodekOperatDb(_dbConfig);
-            var blob = new OśrodekPlikiDb(_blobConfig);
+            var db = new OśrodekOperatDb(_operatyConfig);
+            var blob = new OśrodekPlikiDb(_plikiConfig);
             var writer = new OperatWriter
             {
                 OperatDb = db,

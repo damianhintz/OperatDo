@@ -66,6 +66,7 @@
     <Compile Include="OśrodekConfigTest.cs" />
     <Compile Include="OśrodekPlikiDbTest.cs" />
     <Compile Include="Rozszerzenia\OśrodekDbRozszerzenia.cs" />
+    <Compile Include="RozdzielczośćTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OśrodekDomena\OśrodekDomena.csproj">
@@ -88,7 +89,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Samples\200.jpg" />
     <Content Include="Samples\300.jpg" />
+    <Content Include="Samples\400.jpg" />
+    <Content Include="Samples\600.jpg" />
     <Content Include="Samples\Pliki\K.19.316.16\00_A.jpg" />
     <Content Include="Samples\OsrodekPliki_Delete.sql" />
     <Content Include="Samples\Osrodek_Delete.sql" />

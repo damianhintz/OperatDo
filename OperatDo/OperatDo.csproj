@@ -53,14 +53,14 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Samples\OsrodekBlob.json">
+    <None Include="OsrodekPliki.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Samples\Osrodek.json">
+    <None Include="Osrodek.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Samples\Osrodek.FDB" />
-    <None Include="Samples\OsrodekBlob.FDB" />
+    <None Include="Samples\OsrodekPliki.FDB" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Samples\Osrodek.sql" />

@@ -25,6 +25,7 @@ namespace OśrodekTesty
             var operat = new Operat();
             var dokument = new DokumentOperatu();
             operat.Dodaj(dokument);
+            dokument.Operat.ShouldBeSameAs(operat);
             operat.Dokumenty.ShouldHaveSingleItem();
         }
 

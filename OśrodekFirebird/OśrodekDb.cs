@@ -112,9 +112,9 @@ namespace OśrodekFirebird
         /// <param name="operatTyp"></param>
         /// <param name="plik"></param>
         /// <param name="rozdzielczość"></param>
-        /// <param name="blobId"></param>
+        /// <param name="plikId"></param>
         /// <returns></returns>
-        public int DodajDokument(int operatId, char operatTyp, string plik, int rozdzielczość, int blobId,
+        public int DodajDokument(int operatId, char operatTyp, string plik, int rozdzielczość, int plikId,
             int osoba = 31, int lp = 1)
         {
             var cmd = new FbCommand(
@@ -135,7 +135,7 @@ namespace OśrodekFirebird
             var kompresjaParam = new FbParameter("@kompresja", FbDbType.SmallInt);
             kompresjaParam.Value = 0; //Brak kompresji
             var blobParam = new FbParameter("@blob", FbDbType.Integer);
-            blobParam.Value = blobId;
+            blobParam.Value = plikId;
             var dataParam = new FbParameter("@data", FbDbType.TimeStamp);
             dataParam.Value = DateTime.Now;
             var osobaParam = new FbParameter("@osoba", FbDbType.Integer);

@@ -38,6 +38,7 @@ namespace OśrodekDomena
                 throw new ArgumentNullException(
                     paramName: "dokument",
                     message: "Dokument jest null");
+            dokument.Operat = this;
             _dokumenty.Add(dokument);
         }
     }

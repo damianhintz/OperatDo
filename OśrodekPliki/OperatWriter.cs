@@ -8,7 +8,7 @@ using OśrodekFirebird;
 namespace OśrodekPliki
 {
     /// <summary>
-    /// Importer zeskanowanych operatów do bazy Ośrodka.
+    /// Importer zeskanowanych operatów do bazy danych Ośrodka.
     /// </summary>
     public class OperatWriter
     {
@@ -96,17 +96,17 @@ namespace OśrodekPliki
 
         void ZapiszDokumentyOperatu(Operat operat)
         {
-            foreach (var dokument in operat.Dokumenty) ZapiszDokumentOperatu(operat, dokument);
+            foreach (var dokument in operat.Dokumenty) ZapiszDokumentOperatu(dokument);
         }
 
-        void ZapiszDokumentOperatu(Operat operat, DokumentOperatu dokument)
+        void ZapiszDokumentOperatu(DokumentOperatu dokument)
         {
             if (dokument.Id.HasValue) return; //Pomiń operaty, które posiadają już dokumenty w bazie
             //Odczytaj plik z dysku
-            var blob = dokument.Plik.WczytajPlik();
-            var plikId = ZapiszPlik(dokument, blob);
-            dokument.Rozdzielczość = blob.OdczytajRozdzielczość();
-            var dokumentId = ZapiszDokument(operat, dokument);
+            var plik = dokument.WczytajPlik();
+            var plikId = ZapiszPlik(dokument, plik);
+            dokument.Rozdzielczość = plik.OdczytajRozdzielczość();
+            var dokumentId = ZapiszDokument(dokument);
         }
 
         int ZapiszPlik(DokumentOperatu dokument, byte[] blob)
@@ -116,11 +116,12 @@ namespace OśrodekPliki
             return plikId;
         }
 
-        int ZapiszDokument(Operat operat, DokumentOperatu dokument)
+        int ZapiszDokument(DokumentOperatu dokument)
         {
+            var operat = dokument.Operat;
             var dokumentId = OperatDb.DodajDokument(
                 operat.Id.Value, operat.Typ.Value,
-                dokument.Plik, dokument.Rozdzielczość,
+                dokument.Plik, dokument.Rozdzielczość.Ppm,
                 dokument.PlikId.Value);
             dokument.Id = dokumentId; //Zapamiętaj id dodanego dokumentu
             return dokumentId;

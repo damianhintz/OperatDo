@@ -2,25 +2,28 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Media.Imaging; //PresentationCore
 
 namespace OśrodekDomena.Rozszerzenia
 {
     public static class DokumentRozszerzenia
     {
-        public static byte[] WczytajPlik(this string fileName)
+        public static byte[] WczytajPlik(this DokumentOperatu dokument)
         {
-            return File.ReadAllBytes(fileName);
+            return File.ReadAllBytes(dokument.Plik);
         }
 
-        public static int OdczytajRozdzielczość(this byte[] bytes)
+        /// <summary>
+        /// Zwraca rozdzielczość obrazu.
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public static Rozdzielczość OdczytajRozdzielczość(this byte[] bytes)
         {
             var ms = new MemoryStream(bytes);
             var bitmap = BitmapFrame.Create(ms);
             var dpi = (int)bitmap.DpiX;
-            var ppm = (dpi * 100) / 2.54;
-            return (int)ppm;
+            return new Rozdzielczość(dpi);
         }
     }
 }

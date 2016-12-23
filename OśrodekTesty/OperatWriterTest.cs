@@ -79,14 +79,18 @@ namespace OśrodekTesty
         public void OperatWriter_ShouldNotAddOperatWithDocumentsInDatabase()
         {
             var operat = new Operat { IdZasobu = "P.2801.2016.1" };
-            var dokument = new DokumentOperatu { Plik = "*.jpg", Rozdzielczość = 300 };
+            var dokument = new DokumentOperatu
+            {
+                Plik = "*.jpg",
+                Rozdzielczość = new Rozdzielczość(300)
+            };
             operat.Dodaj(dokument);
             var operatDb = OśrodekDbRozszerzenia.SampleDb();
             var operatTyp = 'E';
             var operatId = operatDb.DodajOperat("P.2801.2016.1", operatTyp);
             var plikiDb = OśrodekDbRozszerzenia.SamplePlikiDb();
             var plikId = plikiDb.DodajPlik(null);
-            operatDb.DodajDokument(operatId, operatTyp, dokument.Plik, dokument.Rozdzielczość, plikId);
+            operatDb.DodajDokument(operatId, operatTyp, dokument.Plik, dokument.Rozdzielczość.Ppm, plikId);
             operatDb.PoliczOperaty().ShouldBe(1);
             operatDb.PoliczDokumenty().ShouldBe(1);
             plikiDb.PoliczPliki().ShouldBe(1);
@@ -136,7 +140,7 @@ namespace OśrodekTesty
             var dokument = new DokumentOperatu
             {
                 Plik = @"..\..\Samples\300.jpg",
-                Rozdzielczość = 300
+                Rozdzielczość = new Rozdzielczość(300)
             };
             operat.Dodaj(dokument);
             var operatDb = OśrodekDbRozszerzenia.SampleDb();
@@ -166,8 +170,8 @@ namespace OśrodekTesty
             var operat = new Operat { IdZasobu = "P.2801.2016.1" };
             var dokument = new DokumentOperatu
             {
-                Plik = @"..\..\Samples\400.jpg",
-                Rozdzielczość = 300
+                Plik = @"..\..\Samples\400x.jpg",
+                Rozdzielczość = new Rozdzielczość(400)
             };
             operat.Dodaj(dokument);
             var operatDb = OśrodekDbRozszerzenia.SampleDb();
@@ -189,6 +193,43 @@ namespace OśrodekTesty
             operatDb.PoliczOperaty().ShouldBe(1);
             operatDb.PoliczDokumenty().ShouldBe(0);
             plikiDb.PoliczPliki().ShouldBe(0);
+        }
+
+        [TestMethod]
+        public void OperatWriter_ShouldAddOperatDocument200x200()
+        {
+            var operat = new Operat { IdZasobu = "P.2801.2016.1" };
+            var dokument = new DokumentOperatu
+            {
+                Plik = @"..\..\Samples\200.jpg"
+            };
+            operat.Dodaj(dokument);
+            var operatDb = OśrodekDbRozszerzenia.SampleDb();
+            var operatTyp = 'E';
+            var operatId = operatDb.DodajOperat("P.2801.2016.1", operatTyp);
+            var plikiDb = OśrodekDbRozszerzenia.SamplePlikiDb();
+            operatDb.PoliczOperaty().ShouldBe(1);
+            operatDb.PoliczDokumenty().ShouldBe(0);
+            plikiDb.PoliczPliki().ShouldBe(0);
+            var writer = new OperatWriter
+            {
+                OperatDb = operatDb,
+                PlikDb = plikiDb
+            };
+            writer.WczytajOperat(operat).ShouldBeTrue(); //Odczytaj operat
+            operat.Id.ShouldBe(operatId);
+            operat.Typ.ShouldBe(operatTyp);
+            writer.ZapiszOperat(operat).ShouldBeTrue(); //Zapisz operat
+            dokument.Id.ShouldNotBeNull();
+            dokument.PlikId.ShouldNotBeNull();
+            operatDb.PoliczOperaty().ShouldBe(1);
+            operatDb.PoliczDokumenty().ShouldBe(1);
+            plikiDb.PoliczPliki().ShouldBe(1);
+            //Rozdzielczość dokumentu w bazie danych 7874?
+            var r200 = new Rozdzielczość(200);
+            var dokumentId = dokument.Id.Value;
+            var plikId = dokument.PlikId.Value;
+            //operatDb.SzukajDokument(dokumentId, out ppm);
         }
     }
 }

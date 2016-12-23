@@ -13,7 +13,7 @@ namespace OśrodekFirebird
     public class OśrodekOperatDb : OśrodekDb
     {
         public OśrodekOperatDb(OśrodekConfig config) : base(config) { }
-        
+
         public bool SzukajOperatu(string idZasobu, out int? idOperatu, out char? typOperatu)
         {
             var @params = idZasobu.Split('.'); //P.2801.rok.nr
@@ -91,6 +91,28 @@ namespace OśrodekFirebird
                     var id_blob = reader.GetInt32(2); //_ID_BLOB
                     bloby.Add(id_blob);
                 }
+                count++;
+            }
+            return count;
+        }
+
+        public int SzukajDokumentu(int dokumentId,
+            ref char operatTyp, ref int operatId, ref int plikId, ref int ppmX, ref int ppmY, 
+            ref string nazwa)
+        {
+            var cmd = _connection.CreateCommand();
+            cmd.CommandText =
+                "SELECT UID,TYP,ID_OPE,DOKUMENT,ID_BLOB,XPPM,YPPM FROM OPERDOK WHERE UID = " + dokumentId;
+            var reader = cmd.ExecuteReader();
+            var count = 0;
+            while (reader.Read())
+            {
+                operatTyp = reader.GetString(1).First();
+                operatId = reader.GetInt32(2); //ID_OPE
+                nazwa = reader.GetString(3);
+                plikId = reader.GetInt32(4); //_ID_BLOB
+                ppmX = reader.GetInt32(5);
+                ppmY = reader.GetInt32(6);
                 count++;
             }
             return count;

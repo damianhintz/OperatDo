@@ -1,4 +1,4 @@
-﻿OperatDo v1.0-alfa, 22 grudnia 2016
+﻿OperatDo v1.0-beta, 23 grudnia 2016
 ---
 Importuj zeskanowane operaty do bazy danych Ośrodka
 
@@ -18,7 +18,7 @@ Importuj zeskanowane operaty do bazy danych Ośrodka
 
 Do zrobienia
 
-* [ ] testy rozdzielczości 200, 300, 400, 600
+* [x] testy rozdzielczości 200, 300, 400, 600
 * [ ] testy treści pliku
 * [ ] testy numeracji dokumentów
 * [ ] testy nazwy i rodzaju dokumentu
