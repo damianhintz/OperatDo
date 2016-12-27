@@ -15,10 +15,10 @@ namespace OśrodekTesty.Rozszerzenia
             if (empty) db.ClearData();
             return db;
         }
-        
+
         static IEnumerable<string> ClearData(this OśrodekOperatDb db)
         {
-            return db.ExecuteFile(@"..\..\Samples\Osrodek_Delete.sql");
+            return db.ExecuteFile(@"Samples\Osrodek_Delete.sql");
         }
 
         static OśrodekConfig SampleConfig()
@@ -26,31 +26,31 @@ namespace OśrodekTesty.Rozszerzenia
             return new OśrodekConfig
             {
                 Host = "localhost",
-                Path = Path.Combine(Environment.CurrentDirectory, @"..\..\Samples\Osrodek.fdb"),
+                Path = Path.Combine(Environment.CurrentDirectory, @"Samples\Osrodek.fdb"),
                 User = "SYSDBA",
                 Password = "masterkey",
                 Charset = "WIN1250"
             };
         }
-        
+
         public static OśrodekPlikiDb SamplePlikiDb(bool empty = true)
         {
-            var db = new OśrodekPlikiDb(SampleBlobConfig());
+            var db = new OśrodekPlikiDb(SamplePlikiConfig());
             if (empty) db.ClearData();
             return db;
         }
-        
+
         static IEnumerable<string> ClearData(this OśrodekPlikiDb db)
         {
-            return db.ExecuteFile(@"..\..\Samples\OsrodekPliki_Delete.sql");
+            return db.ExecuteFile(@"Samples\OsrodekPliki_Delete.sql");
         }
 
-        static OśrodekConfig SampleBlobConfig()
+        static OśrodekConfig SamplePlikiConfig()
         {
             return new OśrodekConfig
             {
                 Host = "localhost",
-                Path = Path.Combine(Environment.CurrentDirectory, @"..\..\Samples\OsrodekBlob.fdb"),
+                Path = Path.Combine(Environment.CurrentDirectory, @"Samples\OsrodekPliki.fdb"),
                 User = "SYSDBA",
                 Password = "masterkey",
                 Charset = "WIN1250"

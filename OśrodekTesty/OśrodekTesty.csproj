@@ -84,9 +84,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Samples\Osrodek.FDB" />
+    <None Include="Samples\Osrodek.FDB">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Samples\Osrodek.json" />
-    <None Include="Samples\OsrodekBlob.FDB" />
+    <None Include="Samples\OsrodekPliki.FDB">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -103,8 +107,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\Pliki\K.19.316.16\00_A.jpg" />
-    <Content Include="Samples\OsrodekPliki_Delete.sql" />
-    <Content Include="Samples\Osrodek_Delete.sql" />
+    <Content Include="Samples\OsrodekPliki_Delete.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Osrodek_Delete.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Samples\Pliki\P.2801.2016.121_T1\001_ZG.jpg" />
     <Content Include="Samples\Pliki\P.2801.2016.121_T1\002_ZG.jpg" />
     <Content Include="Samples\Pliki\P.2801.2016.121_T1\00_A.jpg" />
