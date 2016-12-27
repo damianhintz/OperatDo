@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace OśrodekDomena
@@ -11,6 +12,7 @@ namespace OśrodekDomena
     {
         public int? Id { get; set; }
         public char? Typ { get; set; }
+        public int? Dokumenty { get; set; }
 
         /// <summary>
         /// Identyfikator zasobu.
@@ -18,28 +20,42 @@ namespace OśrodekDomena
         public string IdZasobu { get; set; }
 
         /// <summary>
-        /// Dokumenty wprowadzone do bazy danych.
+        /// Rozmiar całego operatu na dysku.
         /// </summary>
-        public IEnumerable<DokumentOperatu> DokumentyDb => Dokumenty.Where(d => d.Id.HasValue);
+        public RozmiarPliku Rozmiar => new RozmiarPliku(Pliki.Sum(d => d.Rozmiar.Bajty));
+        
+        /// <summary>
+        /// Pliki operatu.
+        /// </summary>
+        public IEnumerable<PlikOperatu> Pliki => _pliki;
+        List<PlikOperatu> _pliki = new List<PlikOperatu>();
 
         /// <summary>
-        /// Dokumenty operatu.
+        /// Folder zawierający pliki operatu.
         /// </summary>
-        public IEnumerable<DokumentOperatu> Dokumenty => _dokumenty;
-        List<DokumentOperatu> _dokumenty = new List<DokumentOperatu>();
+        public string Folder
+        {
+            get
+            {
+                if (!Pliki.Any())
+                    throw new InvalidOperationException(
+                        message: "Nie można ustalić folderu operatu bez dokumentów: " + IdZasobu);
+                return Path.GetDirectoryName(Pliki.First().Plik);
+            }
+        }
 
         /// <summary>
         /// Dodaj zeskanowany dokument do operatu.
         /// </summary>
         /// <param name="dokument"></param>
-        public void Dodaj(DokumentOperatu dokument)
+        public void Dodaj(PlikOperatu dokument)
         {
             if (dokument == null)
                 throw new ArgumentNullException(
                     paramName: "dokument",
                     message: "Dokument jest null");
             dokument.Operat = this;
-            _dokumenty.Add(dokument);
+            _pliki.Add(dokument);
         }
     }
 }

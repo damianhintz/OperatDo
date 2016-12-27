@@ -10,6 +10,8 @@ namespace OśrodekDomena
     /// </summary>
     public class RepozytoriumOperatów : IEnumerable<Operat>
     {
+        public Operat this[int index] => _operaty[index];
+
         /// <summary>
         /// Szukaj operatu w repozytorium.
         /// </summary>
@@ -51,6 +53,13 @@ namespace OśrodekDomena
             _indeksOperatów.Add(idZasobu, operat);
             _operaty.Add(operat);
 
+        }
+
+        public void Usuń(Operat operat)
+        {
+            var id = operat.IdZasobu;
+            _indeksOperatów.Remove(id);
+            _operaty.Remove(operat);
         }
 
         public IEnumerator<Operat> GetEnumerator() { return Operaty.GetEnumerator(); }

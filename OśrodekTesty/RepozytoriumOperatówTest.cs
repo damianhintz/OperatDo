@@ -61,5 +61,19 @@ namespace OśrodekTesty
                 operaty.Dodaj(operat);
             });
         }
+
+        [TestMethod]
+        public void RepozytoriumOperatów_ShouldRemoveOperat()
+        {
+            var operaty = new RepozytoriumOperatów();
+            var operat1 = new Operat() { IdZasobu = "P.2801.2016.1" };
+            var operat2 = new Operat() { IdZasobu = "P.2801.2016.2" };
+            operaty.Dodaj(operat1);
+            operaty.Dodaj(operat2);
+            operaty.Count().ShouldBe(2);
+            operaty.Usuń(operat2);
+            operaty.Count().ShouldBe(1);
+            operaty.ShouldContain(operat1);
+        }
     }
 }

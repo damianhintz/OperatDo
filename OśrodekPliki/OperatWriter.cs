@@ -10,29 +10,10 @@ namespace OśrodekPliki
     /// <summary>
     /// Importer zeskanowanych operatów do bazy danych Ośrodka.
     /// </summary>
-    public class OperatWriter
+    public class OperatWriter : IDisposable
     {
         public OśrodekOperatDb OperatDb { get; set; }
         public OśrodekPlikiDb PlikDb { get; set; }
-        
-        /// <summary>
-        /// Odczytaj wybrane operaty.
-        /// </summary>
-        /// <param name="operaty"></param>
-        /// <returns></returns>
-        public bool WczytajOperaty(IEnumerable<Operat> operaty)
-        {
-            var pominięte = 0;
-            foreach (var operat in operaty)
-            {
-                if (!WczytajOperat(operat))
-                {
-                    pominięte++;
-                    continue; //Brak operatu w bazie Ośrodka
-                }
-            }
-            return pominięte == 0;
-        }
 
         /// <summary>
         /// Odszukaj i wczytaj operat z bazy danych Ośrodka.
@@ -45,12 +26,47 @@ namespace OśrodekPliki
                 throw new ArgumentNullException(
                     paramName: "operat",
                     message: "Operat jest null");
-            if (operat.Id.HasValue) return true; //Operat został już odnaleziony
+            if (operat.Id.HasValue) return true; //Nie odczytuj ponownie
             int? id;
             char? typ;
             if (!OperatDb.SzukajOperatu(operat.IdZasobu, out id, out typ)) return false;
             operat.Id = id.Value; //Zapamiętaj uid operatu
             operat.Typ = typ.Value; //Zapamiętaj typ operatu
+            return true;
+        }
+
+        public bool WczytajDokumenty(IEnumerable<Operat> operaty)
+        {
+            if (!operaty.Any()) return false; //Brak operatów
+            var idOperatów = operaty.Select(op => op.Id.Value).ToArray();
+            var dokumentyOperatu = new List<int>();
+            var operatyDokumentów = new List<int>();
+            var result = OperatDb.SzukajDokumentów(idOperatów, dokumentyOperatu, operatyDokumentów);
+            foreach (var operat in operaty) operat.Dokumenty = 0; //Wyzeruj liczbę dokumentów
+            var indeksOperatów = operaty.ToDictionary(op => op.Id.Value);
+            for (int i = 0; i < dokumentyOperatu.Count; i++)
+            {
+                var dokumentId = dokumentyOperatu[i];
+                var operatId = operatyDokumentów[i];
+                var operat = indeksOperatów[operatId];
+                operat.Dokumenty++; //Odśwież liczbę dokumentów
+            }
+            return true;
+        }
+
+        public bool WczytajDokumenty(Operat operat)
+        {
+            if (operat == null)
+                throw new ArgumentNullException(
+                    paramName: "operat",
+                    message: "Operat jest null");
+            if (!operat.Id.HasValue)
+                throw new InvalidOperationException(
+                    message: "Operat nie został odnaleziony w bazie danych Ośrodka");
+            if (operat.Dokumenty.HasValue) return true; //Nie odczytuj ponownie
+            operat.Dokumenty = OperatDb
+                .SzukajDokumentów(operat.Id.Value)
+                .Count();
             return true;
         }
 
@@ -66,10 +82,12 @@ namespace OśrodekPliki
                     message: "Operat jest null");
             if (!operat.Id.HasValue)
                 throw new InvalidOperationException(
-                    message: "Operat nie został odnaleziony w bazie danych Ośrodka: " + operat.IdZasobu);
+                    message: "Nie ustalono czy operat jest w bazie danych Ośrodka");
             //Czy zawiera jakieś dokumenty w bazie danych?
-            var dokumenty = OperatDb.SzukajDokumentów(operat.Id.Value);
-            if (dokumenty.Any()) return false; //Operat posiada już dokumenty
+            if (!operat.Dokumenty.HasValue)
+                throw new InvalidOperationException(
+                    message: "Nie ustalono czy operat posiada dokumenty w bazie danych Ośrodka");
+            if (operat.Dokumenty.Value > 0) return false; //Operat posiada już dokumenty
             var result = false;
             try
             {
@@ -96,10 +114,10 @@ namespace OśrodekPliki
 
         void ZapiszDokumentyOperatu(Operat operat)
         {
-            foreach (var dokument in operat.Dokumenty) ZapiszDokumentOperatu(dokument);
+            foreach (var dokument in operat.Pliki) ZapiszDokumentOperatu(dokument);
         }
 
-        void ZapiszDokumentOperatu(DokumentOperatu dokument)
+        void ZapiszDokumentOperatu(PlikOperatu dokument)
         {
             if (dokument.Id.HasValue) return; //Pomiń operaty, które posiadają już dokumenty w bazie
             //Odczytaj plik z dysku
@@ -109,14 +127,14 @@ namespace OśrodekPliki
             var dokumentId = ZapiszDokument(dokument);
         }
 
-        int ZapiszPlik(DokumentOperatu dokument, byte[] blob)
+        int ZapiszPlik(PlikOperatu dokument, byte[] blob)
         {
             var plikId = PlikDb.DodajPlik(blob);
             dokument.PlikId = plikId; //Zapamiętaj id dodanego pliku
             return plikId;
         }
 
-        int ZapiszDokument(DokumentOperatu dokument)
+        int ZapiszDokument(PlikOperatu dokument)
         {
             var operat = dokument.Operat;
             var dokumentId = OperatDb.DodajDokument(
@@ -147,11 +165,16 @@ namespace OśrodekPliki
                 var operatId = operaty[i];
                 var dokumentId = dokumenty[i];
                 var operat = znalezioneOperaty[operatId];
-                var dokument = new DokumentOperatu { Id = dokumentId };
+                var dokument = new PlikOperatu { Id = dokumentId };
                 operat.Dodaj(dokument);
             }
             return true;
         }
 
+        public void Dispose()
+        {
+            OperatDb.Dispose();
+            PlikDb.Dispose();
+        }
     }
 }

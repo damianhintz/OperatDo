@@ -19,6 +19,7 @@ namespace OśrodekFirebird
             var @params = idZasobu.Split('.'); //P.2801.rok.nr
             idOperatu = null;
             typOperatu = null;
+            if (!idZasobu.StartsWith("P.")) return false;
             if (@params.Length != 4) return false; //Nieprawidłowy format id zasobu
             var c1 = @params[0][0];
             var c2 = @params[1];

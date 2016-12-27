@@ -79,7 +79,7 @@ namespace OśrodekTesty
         public void OperatWriter_ShouldNotAddOperatWithDocumentsInDatabase()
         {
             var operat = new Operat { IdZasobu = "P.2801.2016.1" };
-            var dokument = new DokumentOperatu
+            var dokument = new PlikOperatu
             {
                 Plik = "*.jpg",
                 Rozdzielczość = new Rozdzielczość(300)
@@ -100,6 +100,7 @@ namespace OśrodekTesty
                 PlikDb = plikiDb
             };
             writer.WczytajOperat(operat).ShouldBeTrue(); //Odczytaj operat
+            writer.WczytajDokumenty(operat).ShouldBeTrue();
             operat.Id.ShouldBe(operatId);
             operat.Typ.ShouldBe(operatTyp);
             writer.ZapiszOperat(operat).ShouldBeFalse(); //Zapisz operat
@@ -125,6 +126,7 @@ namespace OśrodekTesty
                 PlikDb = plikiDb
             };
             writer.WczytajOperat(operat).ShouldBeTrue(); //Odczytaj operat
+            writer.WczytajDokumenty(operat).ShouldBeTrue();
             operat.Id.ShouldBe(operatId);
             operat.Typ.ShouldBe(operatTyp);
             writer.ZapiszOperat(operat).ShouldBeTrue(); //Zapisz operat
@@ -137,9 +139,9 @@ namespace OśrodekTesty
         public void OperatWriter_ShouldAddOperatWithNoDocuments()
         {
             var operat = new Operat { IdZasobu = "P.2801.2016.1" };
-            var dokument = new DokumentOperatu
+            var dokument = new PlikOperatu
             {
-                Plik = @"..\..\Samples\300.jpg",
+                Plik = @"Samples\300.jpg",
                 Rozdzielczość = new Rozdzielczość(300)
             };
             operat.Dodaj(dokument);
@@ -156,6 +158,7 @@ namespace OśrodekTesty
                 PlikDb = plikiDb
             };
             writer.WczytajOperat(operat).ShouldBeTrue(); //Odczytaj operat
+            writer.WczytajDokumenty(operat).ShouldBeTrue();
             operat.Id.ShouldBe(operatId);
             operat.Typ.ShouldBe(operatTyp);
             writer.ZapiszOperat(operat).ShouldBeTrue(); //Zapisz operat
@@ -168,9 +171,9 @@ namespace OśrodekTesty
         public void OperatWriter_ShouldNotAddOperatIfNoFile()
         {
             var operat = new Operat { IdZasobu = "P.2801.2016.1" };
-            var dokument = new DokumentOperatu
+            var dokument = new PlikOperatu
             {
-                Plik = @"..\..\Samples\400x.jpg",
+                Plik = @"Samples\400x.jpg",
                 Rozdzielczość = new Rozdzielczość(400)
             };
             operat.Dodaj(dokument);
@@ -187,6 +190,7 @@ namespace OśrodekTesty
                 PlikDb = plikiDb
             };
             writer.WczytajOperat(operat).ShouldBeTrue(); //Odczytaj operat
+            writer.WczytajDokumenty(operat).ShouldBeTrue();
             operat.Id.ShouldBe(operatId);
             operat.Typ.ShouldBe(operatTyp);
             writer.ZapiszOperat(operat).ShouldBeFalse(); //Zapisz operat
@@ -199,9 +203,9 @@ namespace OśrodekTesty
         public void OperatWriter_ShouldAddOperatDocument200x200()
         {
             var operat = new Operat { IdZasobu = "P.2801.2016.1" };
-            var dokument = new DokumentOperatu
+            var dokument = new PlikOperatu
             {
-                Plik = @"..\..\Samples\200.jpg"
+                Plik = @"Samples\200.jpg"
             };
             operat.Dodaj(dokument);
             var operatDb = OśrodekDbRozszerzenia.SampleDb();
@@ -217,6 +221,7 @@ namespace OśrodekTesty
                 PlikDb = plikiDb
             };
             writer.WczytajOperat(operat).ShouldBeTrue(); //Odczytaj operat
+            writer.WczytajDokumenty(operat).ShouldBe(true);
             operat.Id.ShouldBe(operatId);
             operat.Typ.ShouldBe(operatTyp);
             writer.ZapiszOperat(operat).ShouldBeTrue(); //Zapisz operat

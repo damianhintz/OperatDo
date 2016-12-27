@@ -7,25 +7,26 @@ using Shouldly;
 namespace OśrodekTesty
 {
     [TestClass]
-    public class DokumentTest
+    public class PlikTest
     {
         [TestMethod]
         public void Dokument_ShouldBeEmpty()
         {
-            var dokument = new DokumentOperatu();
+            var dokument = new PlikOperatu();
             dokument.Id.ShouldBeNull();
             dokument.Operat.ShouldBeNull();
             dokument.PlikId.ShouldBeNull();
             dokument.Plik.ShouldBeNull();
+            dokument.Rozmiar.ShouldBeNull();
             dokument.Rozdzielczość.ShouldBeNull();
         }
 
         [TestMethod]
         public void Dokument_ShouldHasDpi200x200()
         {
-            var dokument = new DokumentOperatu
+            var dokument = new PlikOperatu
             {
-                Plik = @"..\..\Samples\200.jpg"
+                Plik = @"Samples\200.jpg"
             };
             var plik = dokument.WczytajPlik();
             plik.ShouldNotBeNull();
@@ -36,9 +37,9 @@ namespace OśrodekTesty
         [TestMethod]
         public void Dokument_ShouldHasDpi300x300()
         {
-            var dokument = new DokumentOperatu
+            var dokument = new PlikOperatu
             {
-                Plik = @"..\..\Samples\300.jpg"
+                Plik = @"Samples\300.jpg"
             };
             var plik = dokument.WczytajPlik();
             plik.ShouldNotBeNull();
@@ -49,9 +50,9 @@ namespace OśrodekTesty
         [TestMethod]
         public void Dokument_ShouldHasDpi400x400()
         {
-            var dokument = new DokumentOperatu
+            var dokument = new PlikOperatu
             {
-                Plik = @"..\..\Samples\400.jpg"
+                Plik = @"Samples\400.jpg"
             };
             var plik = dokument.WczytajPlik();
             plik.ShouldNotBeNull();
@@ -62,9 +63,9 @@ namespace OśrodekTesty
         [TestMethod]
         public void Dokument_ShouldHasDpi600x600()
         {
-            var dokument = new DokumentOperatu
+            var dokument = new PlikOperatu
             {
-                Plik = @"..\..\Samples\600.jpg"
+                Plik = @"Samples\600.jpg"
             };
             var plik = dokument.WczytajPlik();
             plik.ShouldNotBeNull();
