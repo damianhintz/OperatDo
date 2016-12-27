@@ -50,7 +50,8 @@ namespace OśrodekPliki
                 var operat = new Operat { IdZasobu = idZasobu };
                 foreach (var fileName in operatDokumenty)
                 {
-                    var dokument = new DokumentOperatu { Plik = fileName };
+                    var dokument = new PlikOperatu { Plik = fileName };
+                    dokument.Rozmiar = RozmiarPliku.Wczytaj(fileName);
                     operat.Dodaj(dokument);
                 }
                 _operaty.Dodaj(operat);

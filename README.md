@@ -1,4 +1,4 @@
-﻿OperatDo v1.0-beta, 23 grudnia 2016
+﻿OperatDo v1.0-beta, 27 grudnia 2016
 ---
 Importuj zeskanowane operaty do bazy danych Ośrodka
 
@@ -28,9 +28,12 @@ Do zrobienia
 * [ ] aplikacja okienkowa do wsadowego importu operatów
 * [ ] symulacja importu operatów
 
-2016-12-22 v1.0-beta
+2016-12-27 v1.0-beta
 
 * nowość: import operatu do bazy danych Ośrodka
+* nowość: wczytywanie zeskanowanych operatów z dysku
+* nowość: odczytywanie operatów z bazy danych Ośrodka
+* nowość: odczytywanie dokumentów operatu z bazy danych Ośrodka
 
 2016-12-16 v1.0-alfa
 

@@ -8,7 +8,7 @@ namespace OśrodekDomena.Rozszerzenia
 {
     public static class DokumentRozszerzenia
     {
-        public static byte[] WczytajPlik(this DokumentOperatu dokument)
+        public static byte[] WczytajPlik(this PlikOperatu dokument)
         {
             return File.ReadAllBytes(dokument.Plik);
         }

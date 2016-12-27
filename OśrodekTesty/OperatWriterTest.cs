@@ -79,7 +79,7 @@ namespace OśrodekTesty
         public void OperatWriter_ShouldNotAddOperatWithDocumentsInDatabase()
         {
             var operat = new Operat { IdZasobu = "P.2801.2016.1" };
-            var dokument = new DokumentOperatu
+            var dokument = new PlikOperatu
             {
                 Plik = "*.jpg",
                 Rozdzielczość = new Rozdzielczość(300)
@@ -137,7 +137,7 @@ namespace OśrodekTesty
         public void OperatWriter_ShouldAddOperatWithNoDocuments()
         {
             var operat = new Operat { IdZasobu = "P.2801.2016.1" };
-            var dokument = new DokumentOperatu
+            var dokument = new PlikOperatu
             {
                 Plik = @"..\..\Samples\300.jpg",
                 Rozdzielczość = new Rozdzielczość(300)
@@ -168,7 +168,7 @@ namespace OśrodekTesty
         public void OperatWriter_ShouldNotAddOperatIfNoFile()
         {
             var operat = new Operat { IdZasobu = "P.2801.2016.1" };
-            var dokument = new DokumentOperatu
+            var dokument = new PlikOperatu
             {
                 Plik = @"..\..\Samples\400x.jpg",
                 Rozdzielczość = new Rozdzielczość(400)
@@ -199,7 +199,7 @@ namespace OśrodekTesty
         public void OperatWriter_ShouldAddOperatDocument200x200()
         {
             var operat = new Operat { IdZasobu = "P.2801.2016.1" };
-            var dokument = new DokumentOperatu
+            var dokument = new PlikOperatu
             {
                 Plik = @"..\..\Samples\200.jpg"
             };

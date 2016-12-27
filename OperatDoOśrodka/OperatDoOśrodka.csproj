@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domena\OperatViewModel.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,6 +67,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Osrodek.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OsrodekPliki.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -78,6 +85,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OśrodekDomena\OśrodekDomena.csproj">
+      <Project>{5818de5e-9748-4f6b-81de-29470f66a7ee}</Project>
+      <Name>OśrodekDomena</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OśrodekFirebird\OśrodekFirebird.csproj">
+      <Project>{53a117b9-66a9-480c-be9e-ffc2bc8a20bd}</Project>
+      <Name>OśrodekFirebird</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OśrodekPliki\OśrodekPliki.csproj">
+      <Project>{51257d8f-175f-4218-9e2e-630e01bb3b96}</Project>
+      <Name>OśrodekPliki</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
