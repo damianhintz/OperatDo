@@ -14,7 +14,7 @@ namespace OśrodekPliki
     {
         public OśrodekOperatDb OperatDb { get; set; }
         public OśrodekPlikiDb PlikDb { get; set; }
-        
+
         /// <summary>
         /// Odszukaj i wczytaj operat z bazy danych Ośrodka.
         /// </summary>
@@ -44,7 +44,7 @@ namespace OśrodekPliki
             var result = OperatDb.SzukajDokumentów(idOperatów, dokumentyOperatu, operatyDokumentów);
             foreach (var operat in operaty) operat.Dokumenty = 0; //Wyzeruj liczbę dokumentów
             var indeksOperatów = operaty.ToDictionary(op => op.Id.Value);
-            for(int i = 0; i < dokumentyOperatu.Count; i++)
+            for (int i = 0; i < dokumentyOperatu.Count; i++)
             {
                 var dokumentId = dokumentyOperatu[i];
                 var operatId = operatyDokumentów[i];
@@ -80,7 +80,9 @@ namespace OśrodekPliki
                 throw new ArgumentNullException(
                     paramName: "operat",
                     message: "Operat jest null");
-            if (!operat.Id.HasValue) return false; //Brak operatu w bazie danych Ośrodka
+            if (!operat.Id.HasValue)
+                throw new InvalidOperationException(
+                    message: "Nie ustalono czy operat jest w bazie danych Ośrodka");
             //Czy zawiera jakieś dokumenty w bazie danych?
             if (!operat.Dokumenty.HasValue)
                 throw new InvalidOperationException(
