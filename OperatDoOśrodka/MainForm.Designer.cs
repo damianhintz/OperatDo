@@ -71,6 +71,8 @@
             this.panel = new System.Windows.Forms.Panel();
             this.status = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.usuńDokumentyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.menu.SuspendLayout();
             this.operatMenu.SuspendLayout();
             this.panel.SuspendLayout();
@@ -327,17 +329,19 @@
             this.toolStripSeparator9,
             this.zapiszOperatMenuItem,
             this.toolStripSeparator6,
-            this.usuńOperatMenuItem});
+            this.usuńOperatMenuItem,
+            this.toolStripSeparator10,
+            this.usuńDokumentyMenuItem});
             this.operatMenu.Name = "operatMenu";
             this.operatMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.operatMenu.Size = new System.Drawing.Size(222, 154);
+            this.operatMenu.Size = new System.Drawing.Size(222, 182);
             // 
             // pokażOperatMenuItem
             // 
             this.pokażOperatMenuItem.Name = "pokażOperatMenuItem";
             this.pokażOperatMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.V)));
-            this.pokażOperatMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.pokażOperatMenuItem.Size = new System.Drawing.Size(221, 22);
             this.pokażOperatMenuItem.Text = "Pokaż folder";
             this.pokażOperatMenuItem.ToolTipText = "Pokaż operat na dysku";
             this.pokażOperatMenuItem.Click += new System.EventHandler(this.pokażOperatMenuItem_Click);
@@ -345,14 +349,14 @@
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(227, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(218, 6);
             // 
             // wczytajOperatMenuItem
             // 
             this.wczytajOperatMenuItem.Name = "wczytajOperatMenuItem";
             this.wczytajOperatMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.R)));
-            this.wczytajOperatMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.wczytajOperatMenuItem.Size = new System.Drawing.Size(221, 22);
             this.wczytajOperatMenuItem.Text = "Odczytaj operat";
             this.wczytajOperatMenuItem.ToolTipText = "Odczytaj dane operatu z bazy danych Ośrodka";
             this.wczytajOperatMenuItem.Click += new System.EventHandler(this.wczytajOperatMenuItem_Click);
@@ -367,14 +371,14 @@
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(227, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(218, 6);
             // 
             // zapiszOperatMenuItem
             // 
             this.zapiszOperatMenuItem.Name = "zapiszOperatMenuItem";
             this.zapiszOperatMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.W)));
-            this.zapiszOperatMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.zapiszOperatMenuItem.Size = new System.Drawing.Size(221, 22);
             this.zapiszOperatMenuItem.Text = "Zapisz operat";
             this.zapiszOperatMenuItem.ToolTipText = "Zapisz dokumenty i pliki operatu w bazie danych Ośrodka";
             this.zapiszOperatMenuItem.Click += new System.EventHandler(this.zapiszOperatMenuItem_Click);
@@ -382,14 +386,14 @@
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(227, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(218, 6);
             // 
             // usuńOperatMenuItem
             // 
             this.usuńOperatMenuItem.Name = "usuńOperatMenuItem";
             this.usuńOperatMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.D)));
-            this.usuńOperatMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.usuńOperatMenuItem.Size = new System.Drawing.Size(221, 22);
             this.usuńOperatMenuItem.Text = "Usuń operat";
             this.usuńOperatMenuItem.Click += new System.EventHandler(this.usuńOperatMenuItem_Click);
             // 
@@ -418,6 +422,19 @@
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(44, 17);
             this.statusLabel.Text = "Gotowe";
+            // 
+            // usuńDokumentyMenuItem
+            // 
+            this.usuńDokumentyMenuItem.Name = "usuńDokumentyMenuItem";
+            this.usuńDokumentyMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.usuńDokumentyMenuItem.Text = "Usuń dokumenty";
+            this.usuńDokumentyMenuItem.ToolTipText = "Usuń zapisane dokumenty operatu z bazy danych Ośrodka";
+            this.usuńDokumentyMenuItem.Click += new System.EventHandler(this.usuńDokumentyMenuItem_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(218, 6);
             // 
             // MainForm
             // 
@@ -487,6 +504,8 @@
         private System.Windows.Forms.ToolStripMenuItem operatyBezDokumentówMenuItem;
         private System.Windows.Forms.ToolStripMenuItem odczytajDokumentyMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem usuńDokumentyMenuItem;
     }
 }
 

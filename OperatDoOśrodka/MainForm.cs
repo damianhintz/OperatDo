@@ -152,6 +152,15 @@ namespace OperatDoOśrodka
                 ", " + pliki + " pliki (" + rozmiar + " MB)";
         }
 
+        private void pokażOperatMenuItem_Click(object sender, EventArgs e)
+        {
+            var operaty = ZaznaczoneOperaty;
+            if (!operaty.Any()) return; //Brak operatów do pokazania
+            if (operaty.Count() > 1) return; //Za dużo operatów do pokazania
+            var jedynyOperat = operaty.Single();
+            Process.Start(jedynyOperat.Folder);
+        }
+
         private void wczytajOperatMenuItem_Click(object sender, EventArgs e)
         {
             OdczytajOperaty();
@@ -264,8 +273,8 @@ namespace OperatDoOśrodka
             }
             foreach (var operat in zapisaneOperaty)
             {
-                //operat.Operat.Dokumenty = operat.operat.Pliki.Count();
-                //operat.Odśwież();
+                operat.Operat.Dokumenty = operat.Operat.Pliki.Count();
+                operat.Odśwież();
             }
             writer.Dispose();
             var icon = MessageBoxIcon.Information;
@@ -337,14 +346,26 @@ namespace OperatDoOśrodka
             statusLabel.Text = "Gotowe";
         }
 
-        private void pokażOperatMenuItem_Click(object sender, EventArgs e)
+        private void usuńDokumentyMenuItem_Click(object sender, EventArgs e)
         {
             var operaty = ZaznaczoneOperaty;
-            if (!operaty.Any()) return; //Brak operatów do pokazania
-            if (operaty.Count() > 1) return; //Za dużo operatów do pokazania
-            var jedynyOperat = operaty.Single();
-            Process.Start(jedynyOperat.Folder);
+            if (!operaty.Any()) return; //Brak operatów
+            //Zgodna liczba dokumentów i plików na dysku
+            //var operatyDoUsunięcia = operaty.Where(op => op.Operat.Dokumenty.Value == op.Operat.Pliki.Count());
+            var writer = new OperatWriter();
+            var operatConfig = OśrodekConfig.Wczytaj("Osrodek.json");
+            var plikConfig = OśrodekConfig.Wczytaj("OsrodekPliki.json");
+            writer.OperatDb = new OśrodekOperatDb(operatConfig);
+            writer.PlikDb = new OśrodekPlikiDb(plikConfig);
+            var result = MessageBox.Show(owner: this,
+                text: "Wybrane operaty: " + operaty.Count() +
+                "\nOśrodek operaty: " + operatConfig.Path +
+                "\nOśrodek pliki: " + plikConfig.Path,
+                caption: "Usunąć dokumenty operatów?",
+                buttons: MessageBoxButtons.YesNo,
+                icon: MessageBoxIcon.Question);
+            if (result != DialogResult.Yes) return; //Usuwanie anulowane
+            writer.Dispose();
         }
-
     }
 }
