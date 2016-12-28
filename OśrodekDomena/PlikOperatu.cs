@@ -13,6 +13,8 @@ namespace OśrodekDomena
         public Operat Operat { get; set; }
         public int? PlikId { get; set; }
         public string Plik { get; set; }
+        public TypPliku Typ { get; set; } = TypPliku.Jpg;
+        public int Numer { get; set; }
         public RozmiarPliku Rozmiar { get; set; }
         public Rozdzielczość Rozdzielczość { get; set; }
     }

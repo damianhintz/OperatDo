@@ -33,7 +33,7 @@ namespace OśrodekTesty
             var db = OśrodekDbRozszerzenia.SampleDb();
             var operatId = db.DodajOperat("P.2801.2016.1");
             db.PoliczOperaty().ShouldBe(1);
-            var dokumentId = db.DodajDokument(operatId, 'E', "*.jpg", 300, 1);
+            var dokumentId = db.DodajDokument(operatId, 'E', 4, "*.jpg", 300, 1);
             db.PoliczDokumenty().ShouldBe(1);
             db.SzukajDokumentów(operatId).ShouldHaveSingleItem();
             var dokumenty = new List<int>();
@@ -52,7 +52,7 @@ namespace OśrodekTesty
             db.PoliczOperaty().ShouldBe(0);
             db.PoliczDokumenty().ShouldBe(0);
             var dpi = new Rozdzielczość(300);
-            var id = db.DodajDokument(1, 'E', "nazwa", dpi.Ppm, 1);
+            var id = db.DodajDokument(1, 'E', 4, "nazwa", dpi.Ppm, 1);
             id.ShouldBeGreaterThan(1);
             db.PoliczDokumenty().ShouldBe(1);
             char operatTyp = '0';

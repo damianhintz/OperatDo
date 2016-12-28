@@ -68,11 +68,13 @@
             this.zapiszOperatMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.usuńOperatMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.usuńDokumentyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel = new System.Windows.Forms.Panel();
             this.status = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.usuńDokumentyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.statusHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.operatyZapisaneMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.operatMenu.SuspendLayout();
             this.panel.SuspendLayout();
@@ -168,6 +170,7 @@
             this.zaznaczNieodczytaneToolStripMenuItem,
             this.toolStripSeparator8,
             this.operatyBezDokumentówMenuItem,
+            this.operatyZapisaneMenuItem,
             this.toolStripSeparator3,
             this.odwróćZaznaczenieMenuItem,
             this.toolStripSeparator5,
@@ -270,7 +273,8 @@
             this.dokumentyHeader,
             this.plikiHeader,
             this.rozmiarHeader,
-            this.folderHeader});
+            this.folderHeader,
+            this.statusHeader});
             this.operatView.ContextMenuStrip = this.operatMenu;
             this.operatView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.operatView.FullRowSelect = true;
@@ -334,14 +338,14 @@
             this.usuńDokumentyMenuItem});
             this.operatMenu.Name = "operatMenu";
             this.operatMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.operatMenu.Size = new System.Drawing.Size(222, 182);
+            this.operatMenu.Size = new System.Drawing.Size(283, 160);
             // 
             // pokażOperatMenuItem
             // 
             this.pokażOperatMenuItem.Name = "pokażOperatMenuItem";
             this.pokażOperatMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.V)));
-            this.pokażOperatMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.pokażOperatMenuItem.Size = new System.Drawing.Size(282, 22);
             this.pokażOperatMenuItem.Text = "Pokaż folder";
             this.pokażOperatMenuItem.ToolTipText = "Pokaż operat na dysku";
             this.pokażOperatMenuItem.Click += new System.EventHandler(this.pokażOperatMenuItem_Click);
@@ -349,14 +353,14 @@
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(218, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(279, 6);
             // 
             // wczytajOperatMenuItem
             // 
             this.wczytajOperatMenuItem.Name = "wczytajOperatMenuItem";
             this.wczytajOperatMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.R)));
-            this.wczytajOperatMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.wczytajOperatMenuItem.Size = new System.Drawing.Size(282, 22);
             this.wczytajOperatMenuItem.Text = "Odczytaj operat";
             this.wczytajOperatMenuItem.ToolTipText = "Odczytaj dane operatu z bazy danych Ośrodka";
             this.wczytajOperatMenuItem.Click += new System.EventHandler(this.wczytajOperatMenuItem_Click);
@@ -364,21 +368,23 @@
             // odczytajDokumentyMenuItem
             // 
             this.odczytajDokumentyMenuItem.Name = "odczytajDokumentyMenuItem";
-            this.odczytajDokumentyMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.odczytajDokumentyMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.P)));
+            this.odczytajDokumentyMenuItem.Size = new System.Drawing.Size(282, 22);
             this.odczytajDokumentyMenuItem.Text = "Odczytaj dokumenty operatu";
             this.odczytajDokumentyMenuItem.Click += new System.EventHandler(this.odczytajDokumentyOperatuMenuItem_Click);
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(218, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(279, 6);
             // 
             // zapiszOperatMenuItem
             // 
             this.zapiszOperatMenuItem.Name = "zapiszOperatMenuItem";
             this.zapiszOperatMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.W)));
-            this.zapiszOperatMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.zapiszOperatMenuItem.Size = new System.Drawing.Size(282, 22);
             this.zapiszOperatMenuItem.Text = "Zapisz operat";
             this.zapiszOperatMenuItem.ToolTipText = "Zapisz dokumenty i pliki operatu w bazie danych Ośrodka";
             this.zapiszOperatMenuItem.Click += new System.EventHandler(this.zapiszOperatMenuItem_Click);
@@ -386,16 +392,29 @@
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(218, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(279, 6);
             // 
             // usuńOperatMenuItem
             // 
             this.usuńOperatMenuItem.Name = "usuńOperatMenuItem";
             this.usuńOperatMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.D)));
-            this.usuńOperatMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.usuńOperatMenuItem.Size = new System.Drawing.Size(282, 22);
             this.usuńOperatMenuItem.Text = "Usuń operat";
             this.usuńOperatMenuItem.Click += new System.EventHandler(this.usuńOperatMenuItem_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(279, 6);
+            // 
+            // usuńDokumentyMenuItem
+            // 
+            this.usuńDokumentyMenuItem.Name = "usuńDokumentyMenuItem";
+            this.usuńDokumentyMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.usuńDokumentyMenuItem.Text = "Usuń dokumenty";
+            this.usuńDokumentyMenuItem.ToolTipText = "Usuń zapisane dokumenty operatu z bazy danych Ośrodka";
+            this.usuńDokumentyMenuItem.Click += new System.EventHandler(this.usuńDokumentyMenuItem_Click);
             // 
             // panel
             // 
@@ -423,18 +442,18 @@
             this.statusLabel.Size = new System.Drawing.Size(44, 17);
             this.statusLabel.Text = "Gotowe";
             // 
-            // usuńDokumentyMenuItem
+            // statusHeader
             // 
-            this.usuńDokumentyMenuItem.Name = "usuńDokumentyMenuItem";
-            this.usuńDokumentyMenuItem.Size = new System.Drawing.Size(221, 22);
-            this.usuńDokumentyMenuItem.Text = "Usuń dokumenty";
-            this.usuńDokumentyMenuItem.ToolTipText = "Usuń zapisane dokumenty operatu z bazy danych Ośrodka";
-            this.usuńDokumentyMenuItem.Click += new System.EventHandler(this.usuńDokumentyMenuItem_Click);
+            this.statusHeader.Text = "Status";
+            this.statusHeader.Width = 300;
             // 
-            // toolStripSeparator10
+            // operatyZapisaneMenuItem
             // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(218, 6);
+            this.operatyZapisaneMenuItem.Name = "operatyZapisaneMenuItem";
+            this.operatyZapisaneMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.operatyZapisaneMenuItem.Text = "Operaty zapisane";
+            this.operatyZapisaneMenuItem.ToolTipText = "Operaty zapisane do bazy danych Ośrodka";
+            this.operatyZapisaneMenuItem.Click += new System.EventHandler(this.zaznaczZapisaneMenuItem_Click);
             // 
             // MainForm
             // 
@@ -506,6 +525,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem usuńDokumentyMenuItem;
+        private System.Windows.Forms.ColumnHeader statusHeader;
+        private System.Windows.Forms.ToolStripMenuItem operatyZapisaneMenuItem;
     }
 }
 

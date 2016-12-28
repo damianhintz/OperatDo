@@ -90,7 +90,8 @@ namespace OśrodekTesty
             var operatId = operatDb.DodajOperat("P.2801.2016.1", operatTyp);
             var plikiDb = OśrodekDbRozszerzenia.SamplePlikiDb();
             var plikId = plikiDb.DodajPlik(null);
-            operatDb.DodajDokument(operatId, operatTyp, dokument.Plik, dokument.Rozdzielczość.Ppm, plikId);
+            operatDb.DodajDokument(operatId, operatTyp, 4,
+                dokument.Plik, dokument.Rozdzielczość.Ppm, plikId);
             operatDb.PoliczOperaty().ShouldBe(1);
             operatDb.PoliczDokumenty().ShouldBe(1);
             plikiDb.PoliczPliki().ShouldBe(1);

@@ -114,12 +114,13 @@ namespace OśrodekFirebird
         /// <param name="rozdzielczość"></param>
         /// <param name="plikId"></param>
         /// <returns></returns>
-        public int DodajDokument(int operatId, char operatTyp, string plik, int rozdzielczość, int plikId,
-            int osoba = 31, int lp = 1)
+        public int DodajDokument(int operatId, char operatTyp,
+            int typPliku, string plik, int rozdzielczość, int plikId,
+            int lp = 1, int osoba = 31)
         {
             var cmd = new FbCommand(
                 "insert into operdok (uid,typ,id_ope,dokument,typ_dok,xppm,yppm,kompresja,id_blob,dtw,osow,nr_dok,naz_dok) values " +
-                "(next value for operdokg,@typ,@operat,@plik,@typDok,@dpp,@dpp,@kompresja,@blob,@data,@osoba,@lp,@nazwa) returning uid;",
+                "(next value for operdokg,@typ,@operat,@plik,@typPliku,@dpp,@dpp,@kompresja,@blob,@data,@osoba,@lp,@nazwa) returning uid;",
                 _connection);
             cmd.Transaction = Transakcja;
             var typParam = new FbParameter("@typ", FbDbType.Char, 1);
@@ -128,8 +129,8 @@ namespace OśrodekFirebird
             operatParam.Value = operatId;
             var plikParam = new FbParameter("@plik", FbDbType.VarChar, 30);
             plikParam.Value = plik.Length > 30 ? plik.Substring(0, 30) : plik; //30 znaków
-            var typDokParam = new FbParameter("@typDok", FbDbType.SmallInt);
-            typDokParam.Value = 1; //Typ dokumentu
+            var typPlikuParam = new FbParameter("@typPliku", FbDbType.SmallInt);
+            typPlikuParam.Value = typPliku; //Typ dokumentu
             var rozdzielczośćParam = new FbParameter("@dpp", FbDbType.Integer);
             rozdzielczośćParam.Value = rozdzielczość;
             var kompresjaParam = new FbParameter("@kompresja", FbDbType.SmallInt);
@@ -147,7 +148,7 @@ namespace OśrodekFirebird
             cmd.Parameters.Add(typParam);
             cmd.Parameters.Add(operatParam);
             cmd.Parameters.Add(plikParam);
-            cmd.Parameters.Add(typDokParam);
+            cmd.Parameters.Add(typPlikuParam);
             cmd.Parameters.Add(rozdzielczośćParam);
             cmd.Parameters.Add(kompresjaParam);
             cmd.Parameters.Add(blobParam);
@@ -179,6 +180,24 @@ namespace OśrodekFirebird
             cmd.Parameters.Add(treśćParam);
             cmd.Parameters.Add(dataParam);
             cmd.Parameters.Add(osobaParam);
+            return (int)cmd.ExecuteScalar();
+        }
+
+        public int UsuńPlik(int plikId)
+        {
+            var cmd = new FbCommand(
+                "delete from fbdok where uid = " + plikId,
+                _connection);
+            cmd.Transaction = Transakcja;
+            return (int)cmd.ExecuteScalar();
+        }
+
+        public int UsuńDokument(int dokumentId)
+        {
+            var cmd = new FbCommand(
+                "delete from operdok where uid = " + dokumentId,
+                _connection);
+            cmd.Transaction = Transakcja;
             return (int)cmd.ExecuteScalar();
         }
 

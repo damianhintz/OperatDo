@@ -21,6 +21,7 @@ namespace OperatDoOśrodka.Domena
         public string Pliki => Operat.Pliki.Count().ToString();
         public string Rozmiar => Operat.Rozmiar.MegaBajty.ToString();
         public string Folder => Operat.Folder;
+        public string Status => Operat.Status;
         Operat _operat;
 
         public OperatViewModel(Operat operat)
@@ -39,6 +40,7 @@ namespace OperatDoOśrodka.Domena
             SubItems.Add(Pliki);
             SubItems.Add(Rozmiar);
             SubItems.Add(Folder);
+            SubItems.Add(Status);
         }
 
         public void Odśwież()

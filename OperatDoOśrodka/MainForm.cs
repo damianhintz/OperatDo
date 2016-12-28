@@ -128,14 +128,25 @@ namespace OperatDoOśrodka
             }
         }
 
+        private void zaznaczZapisaneMenuItem_Click(object sender, EventArgs e)
+        {
+            operatView.SelectedIndices.Clear(); //Odznacz wszystko
+            for (int i = 0; i < operatView.VirtualListSize; i++)
+            {
+                var item = operatView.Items[i];
+                var operat = item.Tag as Operat;
+                item.Selected = operat.Dokumenty.HasValue && operat.Dokumenty.Value == operat.Pliki.Count();
+            }
+        }
+
         private void pokażZaznaczenieMenuItem_Click(object sender, EventArgs e)
         {
             var records = new List<string>();
             foreach (var operat in ZaznaczoneOperaty)
             {
                 records.Add(
-                    string.Format("{0}: {1}",
-                    operat.IdZasobu, operat.Id));
+                    string.Format("{0}: {1}: {2}: {3}",
+                    operat.IdZasobu, operat.Id, operat.Dokumenty, operat.Status));
             }
             var fileName = Path.GetTempFileName();
             fileName = Path.ChangeExtension(fileName, ".txt");
@@ -193,7 +204,16 @@ namespace OperatDoOśrodka
                 else niewczytaneOperaty.Add(operat);
                 Application.DoEvents();
             }
-            foreach (var operat in wczytaneOperaty) operat.Odśwież();
+            foreach (var operat in wczytaneOperaty)
+            {
+                operat.Operat.Status = "Odczytany z bazy danych Ośrodka";
+                operat.Odśwież();
+            }
+            foreach (var operat in niewczytaneOperaty)
+            {
+                operat.Operat.Status = "Brak w bazie danych Ośrodka";
+                operat.Odśwież();
+            }
             writer.Dispose();
             var icon = MessageBoxIcon.Information;
             if (niewczytaneOperaty.Count > 0) icon = MessageBoxIcon.Error;
@@ -216,8 +236,8 @@ namespace OperatDoOśrodka
                 buttons: MessageBoxButtons.YesNo,
                 icon: MessageBoxIcon.Question);
             if (result != DialogResult.Yes) return; //Usuwanie anulowane
-            foreach (var operat in operaty) _operaty.Usuń(operat.Operat);
             operatView.SelectedIndices.Clear();
+            foreach (var operat in operaty) _operaty.Usuń(operat.Operat);
             operatView.VirtualListSize = _operaty.Count();
             var icon = MessageBoxIcon.Information;
             MessageBox.Show(owner: this,
@@ -257,23 +277,38 @@ namespace OperatDoOśrodka
                 "\nRozmiar plików [MB]: " + rozmiar +
                 "\nOśrodek operaty: " + operatConfig.Path +
                 "\nOśrodek pliki: " + plikConfig.Path,
-                caption: "Zapisać operat?",
+                caption: "Zapisać operaty?",
                 buttons: MessageBoxButtons.YesNo,
                 icon: MessageBoxIcon.Question);
             if (result != DialogResult.Yes) return; //Zapisywanie anulowane
             var zapisaneOperaty = new List<OperatViewModel>();
             var niezapisaneOperaty = new List<OperatViewModel>();
+            var index = 1;
+            var count = operaty.Count();
             foreach (var operat in operaty)
             {
-                statusLabel.Text = "Zapisywanie operatu: " + operat.IdZasobu;
-                var zapisany = writer.ZapiszOperat(operat.Operat);
-                if (zapisany) zapisaneOperaty.Add(operat);
-                else niezapisaneOperaty.Add(operat);
+                statusLabel.Text = "Zapisywanie operatu [" + index + "/" + count + "]: " + operat.IdZasobu;
+                Application.DoEvents();
+                try
+                {
+                    writer.ZapiszOperat(operat.Operat);
+                    zapisaneOperaty.Add(operat);
+                }
+                catch (Exception ex)
+                {
+                    operat.Operat.Status = "Niezapisany: " + ex.Message;
+                    niezapisaneOperaty.Add(operat);
+                }
                 Application.DoEvents();
             }
             foreach (var operat in zapisaneOperaty)
             {
+                operat.Operat.Status = "Zapisany do Ośrodka";
                 operat.Operat.Dokumenty = operat.Operat.Pliki.Count();
+                operat.Odśwież();
+            }
+            foreach (var operat in niezapisaneOperaty)
+            {
                 operat.Odśwież();
             }
             writer.Dispose();
@@ -327,6 +362,10 @@ namespace OperatDoOśrodka
             {
                 if (operat.Operat.Dokumenty.HasValue)
                 {
+                    if (operat.Operat.Dokumenty.Value > 0)
+                        operat.Operat.Status = "Odczytany z bazy danych Ośrodka z dokumentami";
+                    else
+                        operat.Operat.Status = "Odczytany z bazy danych Ośrodka bez dokumentów";
                     operat.Odśwież();
                     wczytaneOperaty.Add(operat);
                     dokumenty += operat.Operat.Dokumenty.Value;
@@ -335,7 +374,7 @@ namespace OperatDoOśrodka
             }
             writer.Dispose();
             var icon = MessageBoxIcon.Information;
-            if (niewczytaneOperaty.Count > 0) icon = MessageBoxIcon.Error;
+            if (dokumenty > 0) icon = MessageBoxIcon.Warning;
             MessageBox.Show(owner: this,
                 text: "Sprawdzone operaty: " + wczytaneOperaty.Count +
                 "\nOdczytane dokumenty operatów: " + dokumenty +

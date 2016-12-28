@@ -17,6 +17,8 @@ namespace OśrodekTesty
             dokument.Operat.ShouldBeNull();
             dokument.PlikId.ShouldBeNull();
             dokument.Plik.ShouldBeNull();
+            dokument.Typ.ShouldBe(TypPliku.Jpg);
+            dokument.Numer.ShouldBe(0);
             dokument.Rozmiar.ShouldBeNull();
             dokument.Rozdzielczość.ShouldBeNull();
         }

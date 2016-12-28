@@ -44,6 +44,8 @@ namespace OśrodekDomena
             }
         }
 
+        public string Status { get; set; }
+
         /// <summary>
         /// Dodaj zeskanowany dokument do operatu.
         /// </summary>

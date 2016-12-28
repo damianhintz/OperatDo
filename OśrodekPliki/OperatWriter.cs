@@ -4,6 +4,7 @@ using System.Linq;
 using OśrodekDomena;
 using OśrodekDomena.Rozszerzenia;
 using OśrodekFirebird;
+using System.IO;
 
 namespace OśrodekPliki
 {
@@ -74,7 +75,7 @@ namespace OśrodekPliki
         /// Zapisz dokumenty i pliki operatu w bazie danych Ośrodka.
         /// </summary>
         /// <param name="operat"></param>
-        public bool ZapiszOperat(Operat operat)
+        public void ZapiszOperat(Operat operat)
         {
             if (operat == null)
                 throw new ArgumentNullException(
@@ -87,8 +88,9 @@ namespace OśrodekPliki
             if (!operat.Dokumenty.HasValue)
                 throw new InvalidOperationException(
                     message: "Nie ustalono czy operat posiada dokumenty w bazie danych Ośrodka");
-            if (operat.Dokumenty.Value > 0) return false; //Operat posiada już dokumenty
-            var result = false;
+            if (operat.Dokumenty.Value > 0)
+                throw new InvalidOperationException(
+                    message: "Operat posiada dokumenty w bazie danych Ośrodka");
             try
             {
                 OperatDb.RozpocznijTransakcję();
@@ -96,24 +98,21 @@ namespace OśrodekPliki
                 ZapiszDokumentyOperatu(operat);
                 OperatDb.ZakończTransakcję();
                 PlikDb.ZakończTransakcję();
-                result = true;
             }
             catch (Exception ex)
             {
-                result = false;
                 OperatDb.WycofajTransakcję();
                 PlikDb.WycofajTransakcję();
+                throw ex;
             }
-            finally
-            {
-                //op.ZapiszTransakcję(fileName: "P.operat.insert and P.delete.sql");
-                //plik.ZapiszTransakcję(fileName: "P.plik.insert and P.delete.sql");
-            }
-            return result;
         }
 
         void ZapiszDokumentyOperatu(Operat operat)
         {
+            //Zanumeruj dokumenty
+            var pliki = operat.Pliki.OrderBy(p => p.Plik);
+            var lp = 1;
+            foreach (var plik in pliki) plik.Numer = lp++;
             foreach (var dokument in operat.Pliki) ZapiszDokumentOperatu(dokument);
         }
 
@@ -137,38 +136,14 @@ namespace OśrodekPliki
         int ZapiszDokument(PlikOperatu dokument)
         {
             var operat = dokument.Operat;
+            var plik = Path.GetFileNameWithoutExtension(dokument.Plik);
+            var typ = (int)dokument.Typ;
             var dokumentId = OperatDb.DodajDokument(
                 operat.Id.Value, operat.Typ.Value,
-                dokument.Plik, dokument.Rozdzielczość.Ppm,
-                dokument.PlikId.Value);
+                typ, plik, dokument.Rozdzielczość.Ppm,
+                dokument.PlikId.Value, dokument.Numer);
             dokument.Id = dokumentId; //Zapamiętaj id dodanego dokumentu
             return dokumentId;
-        }
-
-        /// <summary>
-        /// Wczytaj istniejące dokumenty dla znalezionych operatów.
-        /// </summary>
-        /// <remarks>Nie powinno być takich dokumentów.</remarks>
-        /// <returns></returns>
-        bool WczytajDokumenty(RepozytoriumOperatów repozytorium)
-        {
-            var idOperatów = repozytorium.ZnalezioneOperaty.Select(op => op.Id.Value);
-            var dokumenty = new List<int>();
-            var operaty = new List<int>();
-            var count = OperatDb.SzukajDokumentów(idOperatów.ToArray(), dokumenty, operaty);
-            if (count == 0) return false; //Nie znaleziono żadnych dokumentów
-            //var operatyPosiadająceDokumenty = operaty.Distinct(); //Do wykluczenia
-            //Dodaj znalezione dokumenty do operatów
-            var znalezioneOperaty = repozytorium.ZnalezioneOperaty.ToDictionary(op => op.Id.Value);
-            for (int i = 0; i < dokumenty.Count; i++)
-            {
-                var operatId = operaty[i];
-                var dokumentId = dokumenty[i];
-                var operat = znalezioneOperaty[operatId];
-                var dokument = new PlikOperatu { Id = dokumentId };
-                operat.Dodaj(dokument);
-            }
-            return true;
         }
 
         public void Dispose()
