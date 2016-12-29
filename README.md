@@ -28,8 +28,6 @@ Importuj zeskanowane operaty do bazy danych Ośrodka
 Do zrobienia
 
 * [ ] wybór użytkownika przypisanego do importu
-* [ ] raporty importu w postacji plików tekstowych
-* [ ] skrypty sql do zatwierdzania i wycofania zmian
 * [ ] symulacja importu operatów
 
 2016-12-29 v1.0-beta
@@ -40,6 +38,7 @@ Do zrobienia
 * nowość: odczytywanie dokumentów operatu z bazy danych Ośrodka
 * nowość: sortowanie i numerowanie dokumentów
 * nowość: rodzaj dokumentu ze słownika PZG_SLOWNIK
+* nowość: skrypty do usuwania dokumentów i plików
 
 2016-12-16 v1.0-alfa
 

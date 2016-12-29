@@ -1,0 +1,7 @@
+﻿{
+  "Host": "192.168.1.5",
+  "Path": "d:/osrodek/OSRODEK.FDB",
+  "User": "SYSDBA",
+  "Password": "andrzej1",
+  "Charset": "WIN1250"
+}

@@ -59,7 +59,7 @@ namespace OśrodekTesty
             var writer = new OperatWriter { OperatDb = operatDb };
             Should.Throw<ArgumentNullException>(() =>
             {
-                writer.ZapiszOperat(null);
+                writer.ZapiszOperat(null).ShouldBeEmpty();
             });
         }
 
@@ -71,7 +71,7 @@ namespace OśrodekTesty
             var writer = new OperatWriter { OperatDb = operatDb };
             Should.Throw<InvalidOperationException>(() =>
             {
-                writer.ZapiszOperat(operat);
+                writer.ZapiszOperat(operat).ShouldBeEmpty();
             });
         }
 
@@ -106,7 +106,7 @@ namespace OśrodekTesty
             operat.Typ.ShouldBe(operatTyp);
             Should.Throw<InvalidOperationException>(() =>
             {
-                writer.ZapiszOperat(operat); //Zapisz operat
+                writer.ZapiszOperat(operat).Last().ShouldBeFalse(); //Zapisz operat
             });
         }
 
@@ -130,7 +130,7 @@ namespace OśrodekTesty
             writer.WczytajDokumenty(operat).ShouldBeTrue();
             operat.Id.ShouldBe(operatId);
             operat.Typ.ShouldBe(operatTyp);
-            writer.ZapiszOperat(operat).ShouldBeTrue(); //Zapisz operat
+            writer.ZapiszOperat(operat).ShouldBeEmpty(); //Zapisz operat
             operatDb.PoliczOperaty().ShouldBe(1);
             operatDb.PoliczDokumenty().ShouldBe(0);
             plikiDb.PoliczPliki().ShouldBe(0);
@@ -162,7 +162,7 @@ namespace OśrodekTesty
             writer.WczytajDokumenty(operat).ShouldBeTrue();
             operat.Id.ShouldBe(operatId);
             operat.Typ.ShouldBe(operatTyp);
-            writer.ZapiszOperat(operat).ShouldBeTrue(); //Zapisz operat
+            writer.ZapiszOperat(operat).Last().ShouldBeTrue(); //Zapisz operat
             operatDb.PoliczOperaty().ShouldBe(1);
             operatDb.PoliczDokumenty().ShouldBe(1);
             plikiDb.PoliczPliki().ShouldBe(1);
@@ -194,7 +194,7 @@ namespace OśrodekTesty
             writer.WczytajDokumenty(operat).ShouldBeTrue();
             operat.Id.ShouldBe(operatId);
             operat.Typ.ShouldBe(operatTyp);
-            writer.ZapiszOperat(operat).ShouldBeFalse(); //Zapisz operat
+            writer.ZapiszOperat(operat).Last().ShouldBeFalse(); //Zapisz operat
             operatDb.PoliczOperaty().ShouldBe(1);
             operatDb.PoliczDokumenty().ShouldBe(0);
             plikiDb.PoliczPliki().ShouldBe(0);
@@ -225,7 +225,7 @@ namespace OśrodekTesty
             writer.WczytajDokumenty(operat).ShouldBe(true);
             operat.Id.ShouldBe(operatId);
             operat.Typ.ShouldBe(operatTyp);
-            writer.ZapiszOperat(operat).ShouldBeTrue(); //Zapisz operat
+            writer.ZapiszOperat(operat).Last().ShouldBeTrue(); //Zapisz operat
             dokument.Id.ShouldNotBeNull();
             dokument.PlikId.ShouldNotBeNull();
             operatDb.PoliczOperaty().ShouldBe(1);

@@ -16,7 +16,7 @@ namespace OśrodekTesty
             var operat = new Operat();
             operat.Id.ShouldBeNull();
             operat.Typ.ShouldBeNull();
-            operat.Dokumenty.ShouldBeNull();
+            operat.DokumentyId.ShouldBeNull();
             operat.IdZasobu.ShouldBeNull();
             operat.Pliki.ShouldBeEmpty();
             operat.Rozmiar.Bajty.ShouldBe(0);

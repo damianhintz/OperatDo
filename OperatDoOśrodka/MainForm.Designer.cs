@@ -75,6 +75,7 @@
             this.panel = new System.Windows.Forms.Panel();
             this.status = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.usuńPlikiMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.operatMenu.SuspendLayout();
             this.panel.SuspendLayout();
@@ -348,10 +349,11 @@
             this.toolStripSeparator6,
             this.usuńOperatMenuItem,
             this.toolStripSeparator10,
-            this.usuńDokumentyMenuItem});
+            this.usuńDokumentyMenuItem,
+            this.usuńPlikiMenuItem});
             this.operatMenu.Name = "operatMenu";
             this.operatMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.operatMenu.Size = new System.Drawing.Size(283, 160);
+            this.operatMenu.Size = new System.Drawing.Size(283, 204);
             // 
             // pokażOperatMenuItem
             // 
@@ -426,7 +428,7 @@
             this.usuńDokumentyMenuItem.Name = "usuńDokumentyMenuItem";
             this.usuńDokumentyMenuItem.Size = new System.Drawing.Size(282, 22);
             this.usuńDokumentyMenuItem.Text = "Usuń dokumenty";
-            this.usuńDokumentyMenuItem.ToolTipText = "Usuń zapisane dokumenty operatu z bazy danych Ośrodka";
+            this.usuńDokumentyMenuItem.ToolTipText = "Usuń dokumenty operatu z bazy danych Ośrodka";
             this.usuńDokumentyMenuItem.Click += new System.EventHandler(this.usuńDokumentyMenuItem_Click);
             // 
             // panel
@@ -454,6 +456,14 @@
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(44, 17);
             this.statusLabel.Text = "Gotowe";
+            // 
+            // usuńPlikiMenuItem
+            // 
+            this.usuńPlikiMenuItem.Name = "usuńPlikiMenuItem";
+            this.usuńPlikiMenuItem.Size = new System.Drawing.Size(282, 22);
+            this.usuńPlikiMenuItem.Text = "Usuń pliki";
+            this.usuńPlikiMenuItem.ToolTipText = "Usuń pliki operatu z bazy danych Ośrodka";
+            this.usuńPlikiMenuItem.Click += new System.EventHandler(this.usuńPlikiMenuItem_Click);
             // 
             // MainForm
             // 
@@ -527,6 +537,7 @@
         private System.Windows.Forms.ToolStripMenuItem usuńDokumentyMenuItem;
         private System.Windows.Forms.ColumnHeader statusHeader;
         private System.Windows.Forms.ToolStripMenuItem operatyZapisaneMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem usuńPlikiMenuItem;
     }
 }
 

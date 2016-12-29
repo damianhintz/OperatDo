@@ -16,7 +16,7 @@ namespace OperatDoOśrodka.Domena
         public Operat Operat => _operat;
         public string Id => Operat.Id.HasValue ? Operat.Id.Value.ToString() : "Brak";
         public string Typ => Operat.Typ.HasValue ? Operat.Typ.Value.ToString() : "Brak";
-        public string Dokumenty => Operat.Dokumenty.HasValue ? Operat.Dokumenty.Value.ToString() : "Brak";
+        public string Dokumenty => Operat.DokumentyId != null ? Operat.DokumentyId.Count.ToString() : "Brak";
         public string IdZasobu => Operat.IdZasobu;
         public string Pliki => Operat.Pliki.Count().ToString();
         public string Rozmiar => Operat.Rozmiar.MegaBajty.ToString();

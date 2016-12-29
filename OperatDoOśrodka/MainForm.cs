@@ -8,6 +8,7 @@ using OśrodekFirebird;
 using System.Diagnostics;
 using System.IO;
 using OperatDoOśrodka.Domena;
+using System.Threading;
 
 namespace OperatDoOśrodka
 {
@@ -124,7 +125,7 @@ namespace OperatDoOśrodka
             {
                 var item = operatView.Items[i];
                 var operat = item.Tag as Operat;
-                item.Selected = operat.Dokumenty.HasValue && operat.Dokumenty.Value == 0;
+                item.Selected = operat.DokumentyId != null && operat.DokumentyId.Count == 0;
             }
         }
 
@@ -135,7 +136,7 @@ namespace OperatDoOśrodka
             {
                 var item = operatView.Items[i];
                 var operat = item.Tag as Operat;
-                item.Selected = operat.Dokumenty.HasValue && operat.Dokumenty.Value == operat.Pliki.Count();
+                item.Selected = operat.DokumentyId != null && operat.DokumentyId.Count == operat.Pliki.Count();
             }
         }
 
@@ -148,6 +149,11 @@ namespace OperatDoOśrodka
                     string.Format("{0}: {1}: {2}: {3}",
                     operat.IdZasobu, operat.Id, operat.Dokumenty, operat.Status));
             }
+            PokażPlik(records);
+        }
+
+        void PokażPlik(IEnumerable<string> records)
+        {
             var fileName = Path.GetTempFileName();
             fileName = Path.ChangeExtension(fileName, ".txt");
             File.WriteAllLines(fileName, records);
@@ -252,7 +258,7 @@ namespace OperatDoOśrodka
         {
             var operaty = ZaznaczoneOperaty;
             if (!operaty.Any()) return; //Brak operatów do zapisania
-            var operatyGdzieDokumenty = operaty.Where(op => op.Operat.Dokumenty.Value > 0);
+            var operatyGdzieDokumenty = operaty.Where(op => op.Operat.DokumentyId.Count > 0);
             if (operatyGdzieDokumenty.Any())
             {
                 MessageBox.Show(owner: this,
@@ -283,16 +289,36 @@ namespace OperatDoOśrodka
             if (result != DialogResult.Yes) return; //Zapisywanie anulowane
             var zapisaneOperaty = new List<OperatViewModel>();
             var niezapisaneOperaty = new List<OperatViewModel>();
-            var index = 1;
+            var index = 0;
             var count = operaty.Count();
             foreach (var operat in operaty)
             {
+                index++;
                 statusLabel.Text = "Zapisywanie operatu [" + index + "/" + count + "]: " + operat.IdZasobu;
                 Application.DoEvents();
+                //Thread.Sleep(500);
+                var countDok = operat.Operat.Pliki.Count();
                 try
                 {
-                    writer.ZapiszOperat(operat.Operat);
-                    zapisaneOperaty.Add(operat);
+                    var filesOk = writer.ZapiszOperat(operat.Operat);
+                    var numerDok = 1;
+                    var countFalse = 0;
+                    foreach (var ok in filesOk)
+                    {
+                        statusLabel.Text = "Zapisywanie operatu [" + index + "/" + count + "]: " 
+                            + operat.IdZasobu + ": " + numerDok + "/" + countDok;
+                        Application.DoEvents();
+                        numerDok++;
+                        if (!ok) countFalse++;
+                    }
+                    if (countFalse == 0)
+                    {
+                        zapisaneOperaty.Add(operat);
+                    }
+                    else
+                    {
+                        niezapisaneOperaty.Add(operat);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -304,7 +330,8 @@ namespace OperatDoOśrodka
             foreach (var operat in zapisaneOperaty)
             {
                 operat.Operat.Status = "Zapisany do Ośrodka";
-                operat.Operat.Dokumenty = operat.Operat.Pliki.Count();
+                operat.Operat.DokumentyId = new List<int>(operat.Operat.Pliki.Select(p => p.Id.Value));
+                operat.Operat.PlikiId = new List<int>(operat.Operat.Pliki.Select(p => p.PlikId.Value));
                 operat.Odśwież();
             }
             foreach (var operat in niezapisaneOperaty)
@@ -360,15 +387,15 @@ namespace OperatDoOśrodka
             var dokumenty = 0;
             foreach (var operat in operaty)
             {
-                if (operat.Operat.Dokumenty.HasValue)
+                if (operat.Operat.DokumentyId != null)
                 {
-                    if (operat.Operat.Dokumenty.Value > 0)
+                    if (operat.Operat.DokumentyId.Count > 0)
                         operat.Operat.Status = "Odczytany z bazy danych Ośrodka z dokumentami";
                     else
                         operat.Operat.Status = "Odczytany z bazy danych Ośrodka bez dokumentów";
                     operat.Odśwież();
                     wczytaneOperaty.Add(operat);
-                    dokumenty += operat.Operat.Dokumenty.Value;
+                    dokumenty += operat.Operat.DokumentyId.Count;
                 }
                 else niewczytaneOperaty.Add(operat);
             }
@@ -390,7 +417,6 @@ namespace OperatDoOśrodka
             var operaty = ZaznaczoneOperaty;
             if (!operaty.Any()) return; //Brak operatów
             //Zgodna liczba dokumentów i plików na dysku
-            //var operatyDoUsunięcia = operaty.Where(op => op.Operat.Dokumenty.Value == op.Operat.Pliki.Count());
             var writer = new OperatWriter();
             var operatConfig = OśrodekConfig.Wczytaj("Osrodek.json");
             var plikConfig = OśrodekConfig.Wczytaj("OsrodekPliki.json");
@@ -405,6 +431,85 @@ namespace OperatDoOśrodka
                 icon: MessageBoxIcon.Question);
             if (result != DialogResult.Yes) return; //Usuwanie anulowane
             writer.Dispose();
+            var dokumenty = new List<string>();
+            var pliki = new List<string>();
+            foreach (var operatView in operaty)
+            {
+                var operat = operatView.Operat;
+                if (!operat.Id.HasValue)
+                {
+                    dokumenty.Add("-- brak operatu " + operat.IdZasobu);
+                    continue;
+                }
+                dokumenty.Add("-- " + operat.IdZasobu);
+                if (operat.DokumentyId == null) continue;
+                var operatId = operat.Id.Value;
+                var operatTyp = operat.Typ.Value;
+                for (int i = 0; i < operat.DokumentyId.Count; i++)
+                {
+                    var dokumentId = operat.DokumentyId[i];
+                    var plikId = operat.PlikiId[i];
+                    var deleteDokument = string.Format(
+                        "delete from operdok where uid={0} and id_ope={1} and typ='{2}';",
+                        dokumentId, operatId, operatTyp);
+                    dokumenty.Add(deleteDokument);
+                    var deletePlik = string.Format(
+                        "delete from fbdok where uid={0};",
+                        plikId);
+                    pliki.Add(deletePlik);
+                }
+            }
+            PokażPlik(dokumenty);
+        }
+
+        private void usuńPlikiMenuItem_Click(object sender, EventArgs e)
+        {
+            var operaty = ZaznaczoneOperaty;
+            if (!operaty.Any()) return; //Brak operatów
+            //Zgodna liczba dokumentów i plików na dysku
+            var writer = new OperatWriter();
+            var operatConfig = OśrodekConfig.Wczytaj("Osrodek.json");
+            var plikConfig = OśrodekConfig.Wczytaj("OsrodekPliki.json");
+            writer.OperatDb = new OśrodekOperatDb(operatConfig);
+            writer.PlikDb = new OśrodekPlikiDb(plikConfig);
+            var result = MessageBox.Show(owner: this,
+                text: "Wybrane operaty: " + operaty.Count() +
+                "\nOśrodek operaty: " + operatConfig.Path +
+                "\nOśrodek pliki: " + plikConfig.Path,
+                caption: "Usunąć pliki operatów?",
+                buttons: MessageBoxButtons.YesNo,
+                icon: MessageBoxIcon.Question);
+            if (result != DialogResult.Yes) return; //Usuwanie anulowane
+            writer.Dispose();
+            var dokumenty = new List<string>();
+            var pliki = new List<string>();
+            foreach (var operatView in operaty)
+            {
+                var operat = operatView.Operat;
+                if (!operat.Id.HasValue)
+                {
+                    dokumenty.Add("-- brak operatu " + operat.IdZasobu);
+                    continue;
+                }
+                if (operat.DokumentyId == null) continue;
+                pliki.Add("-- " + operat.IdZasobu);
+                var operatId = operat.Id.Value;
+                var operatTyp = operat.Typ.Value;
+                for (int i = 0; i < operat.DokumentyId.Count; i++)
+                {
+                    var dokumentId = operat.DokumentyId[i];
+                    var plikId = operat.PlikiId[i];
+                    var deleteDokument = string.Format(
+                        "delete from operdok where uid={0} and id_ope={1} and typ='{2}';",
+                        dokumentId, operatId, operatTyp);
+                    dokumenty.Add(deleteDokument);
+                    var deletePlik = string.Format(
+                        "delete from fbdok where uid={0};",
+                        plikId);
+                    pliki.Add(deletePlik);
+                }
+            }
+            PokażPlik(pliki);
         }
     }
 }

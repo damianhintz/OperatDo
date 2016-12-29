@@ -12,7 +12,8 @@ namespace OśrodekDomena
     {
         public int? Id { get; set; }
         public char? Typ { get; set; }
-        public int? Dokumenty { get; set; }
+        public List<int> DokumentyId { get; set; }
+        public List<int> PlikiId { get; set; }
 
         /// <summary>
         /// Identyfikator zasobu.
