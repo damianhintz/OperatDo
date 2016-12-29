@@ -12,7 +12,45 @@ namespace OśrodekFirebird
     /// </summary>
     public class OśrodekOperatDb : OśrodekDb
     {
-        public OśrodekOperatDb(OśrodekConfig config) : base(config) { }
+        public OśrodekOperatDb(OśrodekConfig config) : base(config)
+        {
+            var rodzajId = new List<int>();
+            var nazwa = new List<string>();
+            var count = SzukajRodzaju(rodzajId, nazwa);
+            if (count != 8)
+                throw new InvalidOperationException(
+                    message: "Słownik rodzaju dokumentów nie zawiera 8 pozycji tylko " + count);
+            _rodzaje = new Dictionary<string, int>();
+            for(int i = 0; i < rodzajId.Count; i++)
+            {
+                _rodzaje.Add(nazwa[i], rodzajId[i]);
+            }
+        }
+
+        int SzukajRodzaju(List<int> rodzajId = null, List<string> nazwa = null)
+        {
+            var cmd = _connection.CreateCommand();
+            cmd.CommandText =
+                "SELECT UID, NAZWA_SKR, NR_META, TYP_PZG " +
+                "FROM PZG_SLOWNIK where typ_pzg = 'PZG_NazwaDok'";
+            var reader = cmd.ExecuteReader();
+            var count = 0;
+            while (reader.Read())
+            {
+                if (rodzajId != null)
+                {
+                    var uid = reader.GetInt32(0); //UID
+                    rodzajId.Add(uid);
+                }
+                if (nazwa != null)
+                {
+                    var skr = reader.GetString(1); //NAZWA_SKR
+                    nazwa.Add(skr);
+                }
+                count++;
+            }
+            return count;
+        }
 
         public bool SzukajOperatu(string idZasobu, out int? idOperatu, out char? typOperatu)
         {
@@ -67,12 +105,14 @@ namespace OśrodekFirebird
         }
 
         public int SzukajDokumentów(int[] idOperatów,
-            List<int> dokumenty = null, List<int> operaty = null, List<int> bloby = null)
+            List<int> dokumenty = null, List<int> operaty = null, List<int> bloby = null,
+            List<string> nazwy = null, List<int> rodzaje = null, List<int> numery = null)
         {
             var idArray = string.Join(",", idOperatów);
             var cmd = _connection.CreateCommand();
             cmd.CommandText =
-                "SELECT UID, ID_OPE, ID_BLOB FROM OPERDOK WHERE ID_OPE IN (" + idArray + ");";
+                "SELECT UID,ID_OPE,ID_BLOB,DOKUMENT,NAZ_DOK,NR_DOK FROM OPERDOK " +
+                "WHERE ID_OPE IN (" + idArray + ");";
             var reader = cmd.ExecuteReader();
             var count = 0;
             while (reader.Read())
@@ -89,8 +129,23 @@ namespace OśrodekFirebird
                 }
                 if (bloby != null)
                 {
-                    var id_blob = reader.GetInt32(2); //_ID_BLOB
+                    var id_blob = reader.GetInt32(2); //ID_BLOB
                     bloby.Add(id_blob);
+                }
+                if (nazwy != null)
+                {
+                    var dokument = reader.GetString(3); //DOKUMENT
+                    nazwy.Add(dokument);
+                }
+                if (rodzaje != null)
+                {
+                    var rodzaj = reader.GetInt32(4); //NAZ_DOK
+                    rodzaje.Add(rodzaj);
+                }
+                if (numery != null)
+                {
+                    var nr = reader.GetInt32(5); //NR_DOK
+                    numery.Add(nr);
                 }
                 count++;
             }
@@ -98,7 +153,7 @@ namespace OśrodekFirebird
         }
 
         public int SzukajDokumentu(int dokumentId,
-            ref char operatTyp, ref int operatId, ref int plikId, ref int ppmX, ref int ppmY, 
+            ref char operatTyp, ref int operatId, ref int plikId, ref int ppmX, ref int ppmY,
             ref string nazwa)
         {
             var cmd = _connection.CreateCommand();

@@ -105,6 +105,7 @@ namespace OśrodekPliki
                 OperatDb.WycofajTransakcję();
                 PlikDb.WycofajTransakcję();
                 //throw ex;
+                operat.Status = ex.Message;
                 return false;
             }
         }
@@ -112,7 +113,7 @@ namespace OśrodekPliki
         void ZapiszPlikiOperatu(Operat operat)
         {
             operat.ZanumerujPliki();
-            foreach (var dokument in operat.Pliki)
+            foreach (var dokument in operat.Pliki.OrderBy(op => op.Numer))
             {
                 ZapiszDokumentOperatu(dokument);
             }

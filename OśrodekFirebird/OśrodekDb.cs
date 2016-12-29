@@ -26,6 +26,8 @@ namespace OśrodekFirebird
         public FbTransaction Transakcja => _t;
         private FbTransaction _t;
 
+        protected Dictionary<string, int> _rodzaje;
+
         public OśrodekDb(OśrodekConfig config)
         {
             Connect(config);
@@ -144,7 +146,7 @@ namespace OśrodekFirebird
             var lpParam = new FbParameter("@lp", FbDbType.Integer);
             lpParam.Value = lp;
             var nazwaParam = new FbParameter("@nazwa", FbDbType.Integer);
-            nazwaParam.Value = 0;
+            nazwaParam.Value = UstalTypDokumentu(plik); //PZG_SLOWNIK
             cmd.Parameters.Add(typParam);
             cmd.Parameters.Add(operatParam);
             cmd.Parameters.Add(plikParam);
@@ -159,6 +161,28 @@ namespace OśrodekFirebird
             return (int)cmd.ExecuteScalar();
         }
 
+        int UstalTypDokumentu(string name)
+        {
+            if (string.IsNullOrEmpty(name)) return _rodzaje["inny"];
+            name = name.ToLower();
+            if (name.Contains("obliczenia") || name.EndsWith("_o"))
+                return _rodzaje["dziennikPomiarowy"]; //0
+            if (name.Contains("szkice") || name.EndsWith("_s") || name.EndsWith("_sp"))
+                return _rodzaje["szkicPolowyZbSzkicow"]; //1
+            if (name.Contains("wykaz wsp") || name.EndsWith("_w"))
+                return _rodzaje["wykazWspZbWykazowWsp"]; //2
+            if (name.Contains("protokół") || name.Contains("protokol") || 
+                name.EndsWith("_pe") || name.EndsWith("_pkl") || name.EndsWith("_pk") || name.EndsWith("_pg") || name.EndsWith("_pi"))
+                return _rodzaje["protokolZbProtokolow"]; //3
+            if (name.Contains("opisy topograficzne") || name.EndsWith("_t"))
+                return _rodzaje["opisTopoZbOpisowTopo"]; //4
+            if (name.Contains("sprawozdanie techniczne") || name.EndsWith("_st"))
+                return _rodzaje["sprawTechniczne"]; //5
+            if (name.Contains("mapy") || name.EndsWith("_m"))
+                return _rodzaje["mapa"]; //6
+            return _rodzaje["inny"]; //21 inne
+        }
+        
         /// <summary>
         /// Dodaj plik do bazy danych.
         /// </summary>
