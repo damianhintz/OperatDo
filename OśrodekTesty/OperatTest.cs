@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OśrodekDomena;
+using OśrodekDomena.Rozszerzenia;
 using Shouldly;
 
 namespace OśrodekTesty
@@ -49,5 +51,23 @@ namespace OśrodekTesty
                 var folder = operat.Folder;
             });
         }
+
+        [TestMethod]
+        public void Operat_ShouldEnumarateFiles()
+        {
+            var operat = new Operat();
+            var pliki = new[] {
+                new PlikOperatu { Plik = "00_A.jpg" },
+                new PlikOperatu { Plik = "0_B.jpg" },
+                new PlikOperatu { Plik = "01_P.jpg" },
+                new PlikOperatu { Plik = "11_O.jpg" }
+            };
+            foreach(var plik in pliki.Reverse()) operat.Dodaj(plik);
+            operat.Pliki.Count().ShouldBe(pliki.Length);
+            foreach (var plik in operat.Pliki) plik.Numer.ShouldBe(0);
+            operat.ZanumerujPliki();
+            for (int i = 0; i < pliki.Length; i++) pliki[i].Numer.ShouldBe(i + 1);
+        }
+
     }
 }

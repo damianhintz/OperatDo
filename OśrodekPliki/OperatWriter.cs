@@ -75,7 +75,7 @@ namespace OśrodekPliki
         /// Zapisz dokumenty i pliki operatu w bazie danych Ośrodka.
         /// </summary>
         /// <param name="operat"></param>
-        public void ZapiszOperat(Operat operat)
+        public bool ZapiszOperat(Operat operat)
         {
             if (operat == null)
                 throw new ArgumentNullException(
@@ -95,25 +95,27 @@ namespace OśrodekPliki
             {
                 OperatDb.RozpocznijTransakcję();
                 PlikDb.RozpocznijTransakcję();
-                ZapiszDokumentyOperatu(operat);
+                ZapiszPlikiOperatu(operat);
                 OperatDb.ZakończTransakcję();
                 PlikDb.ZakończTransakcję();
+                return true;
             }
             catch (Exception ex)
             {
                 OperatDb.WycofajTransakcję();
                 PlikDb.WycofajTransakcję();
-                throw ex;
+                //throw ex;
+                return false;
             }
         }
 
-        void ZapiszDokumentyOperatu(Operat operat)
+        void ZapiszPlikiOperatu(Operat operat)
         {
-            //Zanumeruj dokumenty
-            var pliki = operat.Pliki.OrderBy(p => p.Plik);
-            var lp = 1;
-            foreach (var plik in pliki) plik.Numer = lp++;
-            foreach (var dokument in operat.Pliki) ZapiszDokumentOperatu(dokument);
+            operat.ZanumerujPliki();
+            foreach (var dokument in operat.Pliki)
+            {
+                ZapiszDokumentOperatu(dokument);
+            }
         }
 
         void ZapiszDokumentOperatu(PlikOperatu dokument)

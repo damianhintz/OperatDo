@@ -104,10 +104,10 @@ namespace OśrodekTesty
             writer.WczytajDokumenty(operat).ShouldBeTrue();
             operat.Id.ShouldBe(operatId);
             operat.Typ.ShouldBe(operatTyp);
-            writer.ZapiszOperat(operat).ShouldBeFalse(); //Zapisz operat
-            operatDb.PoliczOperaty().ShouldBe(1);
-            operatDb.PoliczDokumenty().ShouldBe(1);
-            plikiDb.PoliczPliki().ShouldBe(1);
+            Should.Throw<InvalidOperationException>(() =>
+            {
+                writer.ZapiszOperat(operat); //Zapisz operat
+            });
         }
 
         [TestMethod]

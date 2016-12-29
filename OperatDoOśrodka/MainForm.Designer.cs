@@ -45,6 +45,7 @@
             this.zaznaczNieodczytaneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.operatyBezDokumentówMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.operatyZapisaneMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.odwróćZaznaczenieMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -59,6 +60,7 @@
             this.plikiHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.rozmiarHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.folderHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.statusHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.operatMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pokażOperatMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
@@ -73,8 +75,6 @@
             this.panel = new System.Windows.Forms.Panel();
             this.status = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.statusHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.operatyZapisaneMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.operatMenu.SuspendLayout();
             this.panel.SuspendLayout();
@@ -221,6 +221,14 @@
             this.operatyBezDokumentówMenuItem.ToolTipText = "Operaty bez dokumentów w bazie danych Ośrodka";
             this.operatyBezDokumentówMenuItem.Click += new System.EventHandler(this.zaznaczBezDokumentówMenuItem_Click);
             // 
+            // operatyZapisaneMenuItem
+            // 
+            this.operatyZapisaneMenuItem.Name = "operatyZapisaneMenuItem";
+            this.operatyZapisaneMenuItem.Size = new System.Drawing.Size(211, 22);
+            this.operatyZapisaneMenuItem.Text = "Operaty zapisane";
+            this.operatyZapisaneMenuItem.ToolTipText = "Operaty zapisane do bazy danych Ośrodka";
+            this.operatyZapisaneMenuItem.Click += new System.EventHandler(this.zaznaczZapisaneMenuItem_Click);
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -321,6 +329,11 @@
             // 
             this.folderHeader.Text = "Folder";
             this.folderHeader.Width = 600;
+            // 
+            // statusHeader
+            // 
+            this.statusHeader.Text = "Status";
+            this.statusHeader.Width = 300;
             // 
             // operatMenu
             // 
@@ -442,19 +455,6 @@
             this.statusLabel.Size = new System.Drawing.Size(44, 17);
             this.statusLabel.Text = "Gotowe";
             // 
-            // statusHeader
-            // 
-            this.statusHeader.Text = "Status";
-            this.statusHeader.Width = 300;
-            // 
-            // operatyZapisaneMenuItem
-            // 
-            this.operatyZapisaneMenuItem.Name = "operatyZapisaneMenuItem";
-            this.operatyZapisaneMenuItem.Size = new System.Drawing.Size(211, 22);
-            this.operatyZapisaneMenuItem.Text = "Operaty zapisane";
-            this.operatyZapisaneMenuItem.ToolTipText = "Operaty zapisane do bazy danych Ośrodka";
-            this.operatyZapisaneMenuItem.Click += new System.EventHandler(this.zaznaczZapisaneMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -465,7 +465,7 @@
             this.Controls.Add(this.menu);
             this.MainMenuStrip = this.menu;
             this.Name = "MainForm";
-            this.Text = "OperatDoOśrodka v1.0-beta - Importuj zeskanowane operaty do Ośrodka (27 grudnia 2" +
+            this.Text = "OperatDoOśrodka v1.0-beta - Importuj zeskanowane operaty do Ośrodka (29 grudnia 2" +
     "016)";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menu.ResumeLayout(false);
