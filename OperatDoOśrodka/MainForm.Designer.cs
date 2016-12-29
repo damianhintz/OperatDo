@@ -72,14 +72,14 @@
             this.usuńOperatMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.usuńDokumentyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel = new System.Windows.Forms.Panel();
             this.status = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.usuńPlikiMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.menu.SuspendLayout();
             this.operatMenu.SuspendLayout();
-            this.panel.SuspendLayout();
             this.status.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menu
@@ -290,7 +290,7 @@
             this.operatView.HideSelection = false;
             this.operatView.Location = new System.Drawing.Point(0, 0);
             this.operatView.Name = "operatView";
-            this.operatView.Size = new System.Drawing.Size(1210, 413);
+            this.operatView.Size = new System.Drawing.Size(1210, 391);
             this.operatView.TabIndex = 1;
             this.operatView.UseCompatibleStateImageBehavior = false;
             this.operatView.View = System.Windows.Forms.View.Details;
@@ -329,7 +329,7 @@
             // folderHeader
             // 
             this.folderHeader.Text = "Folder";
-            this.folderHeader.Width = 600;
+            this.folderHeader.Width = 500;
             // 
             // statusHeader
             // 
@@ -431,15 +431,6 @@
             this.usuńDokumentyMenuItem.ToolTipText = "Usuń dokumenty operatu z bazy danych Ośrodka";
             this.usuńDokumentyMenuItem.Click += new System.EventHandler(this.usuńDokumentyMenuItem_Click);
             // 
-            // panel
-            // 
-            this.panel.Controls.Add(this.operatView);
-            this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel.Location = new System.Drawing.Point(0, 24);
-            this.panel.Name = "panel";
-            this.panel.Size = new System.Drawing.Size(1210, 413);
-            this.panel.TabIndex = 2;
-            // 
             // status
             // 
             this.status.BackColor = System.Drawing.SystemColors.Menu;
@@ -465,13 +456,22 @@
             this.usuńPlikiMenuItem.ToolTipText = "Usuń pliki operatu z bazy danych Ośrodka";
             this.usuńPlikiMenuItem.Click += new System.EventHandler(this.usuńPlikiMenuItem_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.operatView);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 24);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1210, 391);
+            this.panel1.TabIndex = 4;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1210, 437);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.status);
-            this.Controls.Add(this.panel);
             this.Controls.Add(this.menu);
             this.MainMenuStrip = this.menu;
             this.Name = "MainForm";
@@ -481,9 +481,9 @@
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
             this.operatMenu.ResumeLayout(false);
-            this.panel.ResumeLayout(false);
             this.status.ResumeLayout(false);
             this.status.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -498,7 +498,6 @@
         private System.Windows.Forms.ToolStripMenuItem czytajToMenuItem;
         private System.Windows.Forms.ListView operatView;
         private System.Windows.Forms.ColumnHeader operatHeader;
-        private System.Windows.Forms.Panel panel;
         private System.Windows.Forms.StatusStrip status;
         private System.Windows.Forms.ToolStripStatusLabel statusLabel;
         private System.Windows.Forms.ToolStripMenuItem wczytajOperatyMenuItem;
@@ -538,6 +537,7 @@
         private System.Windows.Forms.ColumnHeader statusHeader;
         private System.Windows.Forms.ToolStripMenuItem operatyZapisaneMenuItem;
         private System.Windows.Forms.ToolStripMenuItem usuńPlikiMenuItem;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
