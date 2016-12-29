@@ -1,4 +1,4 @@
-﻿OperatDo v1.0-beta, 29 grudnia 2016
+﻿OperatDo v1.0.1-beta, 29 grudnia 2016
 ---
 Importuj zeskanowane operaty do bazy danych Ośrodka
 
@@ -29,6 +29,11 @@ Do zrobienia
 
 * [ ] wybór użytkownika przypisanego do importu
 * [ ] symulacja importu operatów
+
+2016-12-29 v1.0.1-beta
+
+* poprawione: jawne zwalniane zasobów połączenia do bazy danych
+* aktualizacja: domyślny katalog ze skanami w pliku konfiguracyjnym
 
 2016-12-29 v1.0-beta
 

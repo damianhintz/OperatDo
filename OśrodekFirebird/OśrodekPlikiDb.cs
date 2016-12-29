@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using FirebirdSql.Data.FirebirdClient;
 
 namespace OśrodekFirebird
 {
@@ -26,6 +25,7 @@ namespace OśrodekFirebird
                 treść = (byte[])reader["TRESC"];
                 count++;
             }
+            cmd.Dispose();
             return count;
         }
     }

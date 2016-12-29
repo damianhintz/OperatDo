@@ -49,6 +49,7 @@ namespace OśrodekFirebird
                 }
                 count++;
             }
+            cmd.Dispose();
             return count;
         }
 
@@ -85,6 +86,7 @@ namespace OśrodekFirebird
                 uidOperatów.Add(reader.GetInt32(0));
                 typOperatów.Add(reader.GetString(1).First());
             }
+            cmdOperaty.Dispose();
             if (uidOperatów.Count != 1) return false; //Brak operatu lub jest ich więcej niż jeden
             idOperatu = uidOperatów.First();
             typOperatu = typOperatów.First();
@@ -101,6 +103,7 @@ namespace OśrodekFirebird
             var dokumenty = new List<int>();
             var reader = cmd.ExecuteReader();
             while (reader.Read()) dokumenty.Add(reader.GetInt32(0));
+            cmd.Dispose();
             return dokumenty;
         }
 
@@ -149,6 +152,7 @@ namespace OśrodekFirebird
                 }
                 count++;
             }
+            cmd.Dispose();
             return count;
         }
 
@@ -171,6 +175,7 @@ namespace OśrodekFirebird
                 ppmY = reader.GetInt32(6);
                 count++;
             }
+            cmd.Dispose();
             return count;
         }
 

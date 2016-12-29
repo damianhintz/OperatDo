@@ -22,5 +22,14 @@ namespace OperatDoOśrodka.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("s:\\2903_skanowanie Bartoszyce\\Skanowanie.1 Etap\\")]
+        public string Skany {
+            get {
+                return ((string)(this["Skany"]));
+            }
+        }
     }
 }

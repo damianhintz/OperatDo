@@ -8,7 +8,7 @@ using OśrodekFirebird;
 using System.Diagnostics;
 using System.IO;
 using OperatDoOśrodka.Domena;
-using System.Threading;
+using OperatDoOśrodka.Properties;
 
 namespace OperatDoOśrodka
 {
@@ -57,7 +57,8 @@ namespace OperatDoOśrodka
         private void wczytajOperatyMenuItem_Click(object sender, EventArgs e)
         {
             var folderDialog = new FolderBrowserDialog();
-            folderDialog.SelectedPath = @"s:\2903_skanowanie Bartoszyce\Skanowanie.1 Etap\";
+            if (Directory.Exists(Settings.Default.Skany))
+                folderDialog.SelectedPath = Settings.Default.Skany;
             var result = folderDialog.ShowDialog(this);
             if (result != DialogResult.OK) return;
             statusLabel.Text = "Wczytywanie zeskanowanych operatów: " + folderDialog.SelectedPath;
@@ -305,7 +306,7 @@ namespace OperatDoOśrodka
                     var countFalse = 0;
                     foreach (var ok in filesOk)
                     {
-                        statusLabel.Text = "Zapisywanie operatu [" + index + "/" + count + "]: " 
+                        statusLabel.Text = "Zapisywanie operatu [" + index + "/" + count + "]: "
                             + operat.IdZasobu + ": " + numerDok + "/" + countDok;
                         Application.DoEvents();
                         numerDok++;

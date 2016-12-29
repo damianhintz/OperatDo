@@ -55,7 +55,9 @@ namespace OśrodekFirebird
         {
             var cmd = _connection.CreateCommand();
             cmd.CommandText = "select count(*) from " + table;
-            return (int)cmd.ExecuteScalar();
+            var count = (int)cmd.ExecuteScalar();
+            cmd.Dispose();
+            return count;
         }
 
         public int DodajOperat(string idZasobu, char typ = 'E', int osoba = 31)
@@ -104,7 +106,9 @@ namespace OśrodekFirebird
             cmd.Parameters.Add(c4Param);
             cmd.Parameters.Add(dataParam);
             cmd.Parameters.Add(osobaParam);
-            return (int)cmd.ExecuteScalar();
+            var count = (int)cmd.ExecuteScalar();
+            cmd.Dispose();
+            return count;
         }
 
         /// <summary>
@@ -158,7 +162,9 @@ namespace OśrodekFirebird
             cmd.Parameters.Add(osobaParam);
             cmd.Parameters.Add(lpParam);
             cmd.Parameters.Add(nazwaParam);
-            return (int)cmd.ExecuteScalar();
+            var count = (int)cmd.ExecuteScalar();
+            cmd.Dispose();
+            return count;
         }
 
         int UstalTypDokumentu(string name)
@@ -204,7 +210,9 @@ namespace OśrodekFirebird
             cmd.Parameters.Add(treśćParam);
             cmd.Parameters.Add(dataParam);
             cmd.Parameters.Add(osobaParam);
-            return (int)cmd.ExecuteScalar();
+            var count = (int)cmd.ExecuteScalar();
+            cmd.Dispose();
+            return count;
         }
 
         public int UsuńPlik(int plikId)
@@ -213,7 +221,9 @@ namespace OśrodekFirebird
                 "delete from fbdok where uid = " + plikId,
                 _connection);
             cmd.Transaction = Transakcja;
-            return (int)cmd.ExecuteScalar();
+            var count = (int)cmd.ExecuteScalar();
+            cmd.Dispose();
+            return count;
         }
 
         public int UsuńDokument(int dokumentId)
@@ -222,7 +232,9 @@ namespace OśrodekFirebird
                 "delete from operdok where uid = " + dokumentId,
                 _connection);
             cmd.Transaction = Transakcja;
-            return (int)cmd.ExecuteScalar();
+            var count = (int)cmd.ExecuteScalar();
+            cmd.Dispose();
+            return count;
         }
 
         public IEnumerable<string> ExecuteFile(string fileName)
@@ -242,7 +254,9 @@ namespace OśrodekFirebird
         int Execute(string sql)
         {
             var cmd = new FbCommand(sql, _connection);
-            return cmd.ExecuteNonQuery();
+            var count = cmd.ExecuteNonQuery();
+            cmd.Dispose();
+            return count;
         }
 
         public void RozpocznijTransakcję() { _t = _connection.BeginTransaction(); }
@@ -261,8 +275,11 @@ namespace OśrodekFirebird
 
         public void Dispose()
         {
-            _connection.Close();
-            _connection.Dispose();
+            if (_connection != null)
+            {
+                _connection.Close();
+                _connection.Dispose();
+            }
         }
     }
 }

@@ -353,7 +353,7 @@
             this.usuńPlikiMenuItem});
             this.operatMenu.Name = "operatMenu";
             this.operatMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.operatMenu.Size = new System.Drawing.Size(283, 204);
+            this.operatMenu.Size = new System.Drawing.Size(283, 182);
             // 
             // pokażOperatMenuItem
             // 
@@ -475,8 +475,8 @@
             this.Controls.Add(this.menu);
             this.MainMenuStrip = this.menu;
             this.Name = "MainForm";
-            this.Text = "OperatDoOśrodka v1.0-beta - Importuj zeskanowane operaty do Ośrodka (29 grudnia 2" +
-    "016)";
+            this.Text = "OperatDoOśrodka v1.0.1-beta - Importuj zeskanowane operaty do Ośrodka (29 grudnia" +
+    " 2016)";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
