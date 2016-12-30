@@ -6,11 +6,11 @@ Importuj zeskanowane operaty do bazy danych Ośrodka
 
 1. Wczytać zeskanowane operaty z dysku
 2. Odczytać operaty z bazy danych Ośrodka
-2.1 Wybrać operaty, które znaleziono w bazie danych Ośrodka
-2.2 Zapisać raport z operatami, których nie znaleziono
+2.1. Wybrać operaty, które znaleziono w bazie danych Ośrodka
+2.2. Zapisać raport z operatami, których nie znaleziono
 3. Odczytać dokumenty operatów z bazy danych Ośrodka
-3.1 Wybrać operaty, które nie posiadają żadnych dokumentów w bazie danych Ośrodka
-3.2 Zapisać raport z operatami, które posiadają dokumenty
+3.1. Wybrać operaty, które nie posiadają żadnych dokumentów w bazie danych Ośrodka
+3.2. Zapisać raport z operatami, które posiadają dokumenty
 4. Zapisać operaty w bazie danych Ośrodka
 
 > OperatDo.exe db id[:asIdZasobu or :asUid]
@@ -23,6 +23,9 @@ Do zrobienia
 
 * [ ] wybór użytkownika przypisanego do importu
 * [ ] symulacja importu operatów
+* [ ] kontrola typu i rozmiaru pliku
+* [ ] rzeczywiście wczytane operaty, a nie suma operatów
+* [ ] wykrywanie powtórzonych operatów
 
 2016-12-30 v1.0.2-beta
 
