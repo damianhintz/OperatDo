@@ -1,4 +1,4 @@
-﻿OperatDo v1.0.1-beta, 29 grudnia 2016
+﻿OperatDo v1.0.2-beta, 30 grudnia 2016
 ---
 Importuj zeskanowane operaty do bazy danych Ośrodka
 
@@ -15,13 +15,7 @@ Importuj zeskanowane operaty do bazy danych Ośrodka
 
 > OperatDo.exe db id[:asIdZasobu or :asUid]
 
-[OperatDo_id.log]
-[OperatDo_id_insert.sql]
-[OperatDo_id_delete.sql]
-
 > OperatDoQuery.exe db id
-
-[OperatDo_id_query.log]
 
 # Historia
 
@@ -29,6 +23,10 @@ Do zrobienia
 
 * [ ] wybór użytkownika przypisanego do importu
 * [ ] symulacja importu operatów
+
+2016-12-30 v1.0.2-beta
+
+* poprawiony: widok operatów (zakryty ostatni element na liście)
 
 2016-12-29 v1.0.1-beta
 
