@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menu = new System.Windows.Forms.MenuStrip();
             this.plikMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ośrodekMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -473,6 +474,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.status);
             this.Controls.Add(this.menu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menu;
             this.Name = "MainForm";
             this.Text = "OperatDoOśrodka v1.0.2-beta - Importuj zeskanowane operaty do Ośrodka (30 grudnia" +
