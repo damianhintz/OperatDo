@@ -18,11 +18,11 @@ Importuj zeskanowane operaty do bazy danych Ośrodka
 Do zrobienia
 
 * [ ] wybór użytkownika przypisanego do importu
-* [ ] wykrywanie pustych i nadliczbowych plików
 * [ ] wykrywanie powtórzonych i pustych operatów
 
 2017-01-02 v1.1-beta
 
+* [x] nowość: wykrywanie pustych i nadliczbowych plików
 * [x] aktualizacja: rzeczywiście wczytane operaty, a nie suma operatów
 
 2016-12-30 v1.0.2-beta

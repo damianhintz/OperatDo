@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using OśrodekDomena;
-using OśrodekPliki;
-using OśrodekFirebird;
 using System.Diagnostics;
 using System.IO;
+using OśrodekDomena;
+using OśrodekPliki;
+using OśrodekPliki.Rozszerzenia;
+using OśrodekFirebird;
 using OperatDoOśrodka.Domena;
 using OperatDoOśrodka.Properties;
 
@@ -68,14 +69,26 @@ namespace OperatDoOśrodka
             reader.Wczytaj(folderDialog.SelectedPath);
             var operatyPoCount = _operaty.Count();
             operatView.VirtualListSize = operatyPoCount;
+            var icon = MessageBoxIcon.Information;
+            var pustePliki = reader.PustePliki();
+            var innePliki = reader.DodatkowePliki();
+            var pusteOperaty = reader.PusteOperaty();
+            if (pustePliki.Any() || innePliki.Any() || pusteOperaty.Any())
+                icon = MessageBoxIcon.Warning;
             MessageBox.Show(owner: this,
                 text: "Wczytane operaty: " + (operatyPoCount - operatyPrzedCount) +
-                "\nWczytane pliki: " + reader.Pliki.Count() +
-                "\nSuma operatów: " + operatyPoCount,
+                "\nWczytane pliki: " + reader.PlikiOperatów().Count() +
+                "\nSuma operatów: " + operatyPoCount + 
+                "\nPuste operaty: " + pusteOperaty.Count() +
+                "\nPuste pliki: " + pustePliki.Count() + 
+                "\nDodatkowe pliki: " + innePliki.Count(),
                 caption: "Zeskanowane operaty",
                 buttons: MessageBoxButtons.OK,
-                icon: MessageBoxIcon.Information);
+                icon: icon);
             statusLabel.Text = "Gotowe";
+            if (pusteOperaty.Any()) PokażPlik(pusteOperaty, "Puste operaty");
+            if (pustePliki.Any()) PokażPlik(pustePliki.Select(f => f.FullName), "Puste pliki");
+            if (innePliki.Any()) PokażPlik(innePliki.Select(f => f.FullName), "Dodatkowe pliki");
         }
 
         private void czytajToMenuItem_Click(object sender, EventArgs e)
@@ -156,11 +169,14 @@ namespace OperatDoOśrodka
             PokażPlik(records);
         }
 
-        void PokażPlik(IEnumerable<string> records)
+        void PokażPlik(IEnumerable<string> records, string title = null)
         {
             var fileName = Path.GetTempFileName();
             fileName = Path.ChangeExtension(fileName, ".txt");
-            File.WriteAllLines(fileName, records);
+            if (string.IsNullOrEmpty(title)) title = "#Tytuł raportu: brak";
+            else title = "#Tytuł raportu: " + title;
+            var lines = new List<string>(new[] { title }).Concat(records);
+            File.WriteAllLines(fileName, lines);
             Process.Start(fileName);
         }
 

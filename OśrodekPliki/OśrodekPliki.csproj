@@ -43,6 +43,7 @@
     <Compile Include="OperatReader.cs" />
     <Compile Include="OperatWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rozszerzenia\ReaderRozszerzenia.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OśrodekDomena\OśrodekDomena.csproj">

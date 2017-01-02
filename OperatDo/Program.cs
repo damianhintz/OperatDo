@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OśrodekDomena;
 using OśrodekPliki;
+using OśrodekPliki.Rozszerzenia;
 using OśrodekFirebird;
 
 namespace OperatDo
@@ -35,7 +36,7 @@ namespace OperatDo
             var reader = new OperatReader(_operaty);
             reader.Wczytaj(folder);
             Console.WriteLine("Folder: {0}", folder);
-            Console.WriteLine("Pliki ({1}): {0}", reader.Pliki.Count(), searchPattern);
+            Console.WriteLine("Pliki ({1}): {0}", reader.PlikiOperatów().Count(), searchPattern);
             Console.WriteLine("Operaty (P.2801.*.*): {0}", _operaty.Operaty.Count());
         }
 

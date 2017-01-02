@@ -94,6 +94,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Samples\Pliki\DodatkowyPlik\200.tif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Pliki\DodatkowyPlik\200.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Pliki\PustyPlik\200.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Samples\200.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -117,9 +126,21 @@
     <Content Include="Samples\Pliki\P.2801.2016.121_T1\002_ZG.jpg" />
     <Content Include="Samples\Pliki\P.2801.2016.121_T1\00_A.jpg" />
     <Content Include="Samples\Pliki\P.2801.2016.121_T1\0_B.jpg" />
-    <Content Include="Samples\Pliki\P.2801.2016.122_T1\001_ZG.jpg" />
-    <Content Include="Samples\Pliki\P.2801.2016.122_T1\00_A.jpg" />
-    <Content Include="Samples\Pliki\P.2801.2016.122_T1\0_B.jpg" />
+    <Content Include="Samples\Pliki\P.2801.2016.122\001_ZG.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Pliki\P.2801.2016.122\00_A.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Pliki\P.2801.2016.122\0_B.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Pliki\PustyOperat\PustyPlik.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Pliki\PustyPlik\0.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Choose>
