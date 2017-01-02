@@ -1,4 +1,4 @@
-﻿OperatDo v1.0.2-beta, 30 grudnia 2016
+﻿OperatDo v1.1-beta, 2 stycznia 2017
 ---
 Importuj zeskanowane operaty do bazy danych Ośrodka
 
@@ -13,19 +13,17 @@ Importuj zeskanowane operaty do bazy danych Ośrodka
 3.2. Zapisać raport z operatami, które posiadają dokumenty
 4. Zapisać operaty w bazie danych Ośrodka
 
-> OperatDo.exe db id[:asIdZasobu or :asUid]
-
-> OperatDoQuery.exe db id
-
 # Historia
 
 Do zrobienia
 
 * [ ] wybór użytkownika przypisanego do importu
-* [ ] symulacja importu operatów
-* [ ] kontrola typu i rozmiaru pliku
-* [ ] rzeczywiście wczytane operaty, a nie suma operatów
-* [ ] wykrywanie powtórzonych operatów
+* [ ] wykrywanie pustych i nadliczbowych plików
+* [ ] wykrywanie powtórzonych i pustych operatów
+
+2017-01-02 v1.1-beta
+
+* [x] aktualizacja: rzeczywiście wczytane operaty, a nie suma operatów
 
 2016-12-30 v1.0.2-beta
 

@@ -64,11 +64,14 @@ namespace OperatDoOśrodka
             statusLabel.Text = "Wczytywanie zeskanowanych operatów: " + folderDialog.SelectedPath;
             Application.DoEvents();
             var reader = new OperatReader(_operaty);
+            var operatyPrzedCount = _operaty.Count();
             reader.Wczytaj(folderDialog.SelectedPath);
-            operatView.VirtualListSize = _operaty.Count();
+            var operatyPoCount = _operaty.Count();
+            operatView.VirtualListSize = operatyPoCount;
             MessageBox.Show(owner: this,
-                text: "Wczytane operaty: " + _operaty.Count() +
-                "\nWczytane pliki: " + reader.Pliki.Count(),
+                text: "Wczytane operaty: " + (operatyPoCount - operatyPrzedCount) +
+                "\nWczytane pliki: " + reader.Pliki.Count() +
+                "\nSuma operatów: " + operatyPoCount,
                 caption: "Zeskanowane operaty",
                 buttons: MessageBoxButtons.OK,
                 icon: MessageBoxIcon.Information);
