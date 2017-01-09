@@ -68,6 +68,7 @@
     <Compile Include="Rozszerzenia\OśrodekDbRozszerzenia.cs" />
     <Compile Include="RozdzielczośćTest.cs" />
     <Compile Include="RozmiarPlikuTest.cs" />
+    <Compile Include="IdZasobuTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OśrodekDomena\OśrodekDomena.csproj">
@@ -94,13 +95,25 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Samples\Pliki\DodatkowyPlik\200.tif">
+    <Content Include="Samples\Pliki\BłędnyNumer\P.2801.2016.A\0.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\Pliki\DodatkowyPlik\200.jpg">
+    <Content Include="Samples\Pliki\DodatkowyPlik\P.2801.2016.1\200.tif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\Pliki\PustyPlik\200.jpg">
+    <Content Include="Samples\Pliki\DodatkowyPlik\P.2801.2016.1\200.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Pliki\BłędnyNumer\P.2801.2016.1\0.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Pliki\PowtórzonyNumer\P.2801.2016.1_T2\0.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Pliki\PowtórzonyNumer\P.2801.2016.1_T1\0.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Pliki\PustyPlik\P.2801.2016.1\200.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\200.jpg">
@@ -115,17 +128,27 @@
     <Content Include="Samples\600.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\Pliki\K.19.316.16\00_A.jpg" />
+    <Content Include="Samples\Pliki\K.19.316.16\00_A.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Samples\OsrodekPliki_Delete.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\Osrodek_Delete.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\Pliki\P.2801.2016.121_T1\001_ZG.jpg" />
-    <Content Include="Samples\Pliki\P.2801.2016.121_T1\002_ZG.jpg" />
-    <Content Include="Samples\Pliki\P.2801.2016.121_T1\00_A.jpg" />
-    <Content Include="Samples\Pliki\P.2801.2016.121_T1\0_B.jpg" />
+    <Content Include="Samples\Pliki\P.2801.2016.121_T1\001_ZG.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Pliki\P.2801.2016.121_T1\002_ZG.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Pliki\P.2801.2016.121_T1\00_A.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Pliki\P.2801.2016.121_T1\0_B.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Samples\Pliki\P.2801.2016.122\001_ZG.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -138,7 +161,7 @@
     <Content Include="Samples\Pliki\PustyOperat\PustyPlik.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\Pliki\PustyPlik\0.jpg">
+    <Content Include="Samples\Pliki\PustyPlik\P.2801.2016.1\0.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

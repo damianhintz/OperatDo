@@ -26,7 +26,7 @@ namespace OśrodekTesty
         public void Operat_ShouldAddOneDokument()
         {
             var operat = new Operat();
-            var dokument = new PlikOperatu();
+            var dokument = new PlikOperatu { Plik = "" };
             operat.Dodaj(dokument);
             dokument.Operat.ShouldBeSameAs(operat);
             operat.Pliki.ShouldHaveSingleItem();
@@ -69,5 +69,42 @@ namespace OśrodekTesty
             for (int i = 0; i < pliki.Length; i++) pliki[i].Numer.ShouldBe(i + 1);
         }
 
+        [TestMethod]
+        public void Operat_ShouldNotAddSimilarFiles()
+        {
+            var operat = new Operat();
+            var plik = new PlikOperatu { Plik = "00_A.jpg" };
+            Should.Throw<InvalidOperationException>(() =>
+            {
+                operat.Dodaj(plik);
+                operat.Dodaj(plik);
+            });
+        }
+
+        [TestMethod]
+        public void Operat_ShouldNotAddFilesWithDifferentExtension()
+        {
+            var operat = new Operat();
+            var plik1 = new PlikOperatu { Plik = "00_A.jpg" };
+            var plik2 = new PlikOperatu { Plik = "00_A.tif" };
+            Should.Throw<InvalidOperationException>(() =>
+            {
+                operat.Dodaj(plik1);
+                operat.Dodaj(plik2);
+            });
+        }
+
+        [TestMethod]
+        public void Operat_ShouldNotAddFilesWithDifferentCase()
+        {
+            var operat = new Operat();
+            var plik1 = new PlikOperatu { Plik = "00_a.jpg" };
+            var plik2 = new PlikOperatu { Plik = "00_A.jpg" };
+            Should.Throw<InvalidOperationException>(() =>
+            {
+                operat.Dodaj(plik1);
+                operat.Dodaj(plik2);
+            });
+        }
     }
 }

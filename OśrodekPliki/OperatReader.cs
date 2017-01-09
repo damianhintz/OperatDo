@@ -17,12 +17,13 @@ namespace OśrodekPliki
         /// </summary>
         public RepozytoriumOperatów Operaty => _operaty;
         RepozytoriumOperatów _operaty;
-        
+
         /// <summary>
         /// Wszystkie znalezione pliki w wybranym katalogu.
         /// </summary>
         public IEnumerable<FileInfo> Pliki => _files;
         List<FileInfo> _files;
+        List<DirectoryInfo> _folders;
 
         public OperatReader(RepozytoriumOperatów operaty)
         {
@@ -44,29 +45,40 @@ namespace OśrodekPliki
                 searchOption: SearchOption.AllDirectories);
             _files = allFiles.Select(f => new FileInfo(f)).ToList();
             var operatFiles = this.PlikiOperatów();
-            var operaty = operatFiles.GroupBy(info => info.Directory.Name);
-            //P.2801.rok.nr
-            foreach (var operatDokumenty in operaty)
+            var operaty = operatFiles.GroupBy(info => info.Directory.FullName);
+            var wczytaneOperaty = new RepozytoriumOperatów();
+            foreach (var operatPliki in operaty)
             {
-                var idZasobu = operatDokumenty.Key;
-                var operat = new Operat { IdZasobu = idZasobu };
-                foreach (var fileInfo in operatDokumenty)
-                {
-                    var fileName = fileInfo.FullName;
-                    var dokument = new PlikOperatu { Plik = fileName };
-                    dokument.Rozmiar = RozmiarPliku.Wczytaj(fileName);
-                    operat.Dodaj(dokument);
-                }
+                var operatPath = operatPliki.Key; //P.2801.rok.nr
+                var operat = DodajOperat(operatPath, operatPliki);
+                wczytaneOperaty.Dodaj(operat);
+            }
+            var powtórzoneOperaty =
+                from op in wczytaneOperaty
+                where _operaty.Zawiera(op.IdZasobu)
+                select op.IdZasobu;
+            if (powtórzoneOperaty.Any())
+                throw new InvalidOperationException(
+                    message: "Repozytorium zawiera już operat[y]: " + 
+                    string.Join(", ", powtórzoneOperaty));
+            foreach (var operat in wczytaneOperaty)
                 _operaty.Dodaj(operat);
-            }
-            var foldery = _files.GroupBy(f => f.Directory.Name);
-            var emptyOperats = new List<string>();
-            foreach(var folderGroup in foldery)
+        }
+
+        Operat DodajOperat(string folder, IEnumerable<FileInfo> pliki)
+        {
+            var name = Path.GetFileName(folder); //P.2801.1979.322_T1
+            var idZasobu = IdZasobu.Parse(name.Split('_').First()); //Wyrzuć tom z nazwy folderu
+            var operat = new Operat { IdZasobu = idZasobu.Id };
+            foreach (var fileInfo in pliki)
             {
-                var name = folderGroup.Key;
-                var operatPliki = folderGroup.Where(f => f.Name.ToLower().EndsWith(".jpg"));
-                if (!operatPliki.Any()) emptyOperats.Add(name);
+                var fileName = fileInfo.FullName;
+                var dokument = new PlikOperatu { Plik = fileName };
+                dokument.Rozmiar = RozmiarPliku.Wczytaj(fileName);
+                operat.Dodaj(dokument);
             }
+            //_operaty.Dodaj(operat);
+            return operat;
         }
     }
 }

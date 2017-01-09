@@ -1,4 +1,4 @@
-﻿OperatDo v1.1-beta, 2 stycznia 2017
+﻿OperatDo v1.2-beta, 9 stycznia 2017
 ---
 Importuj zeskanowane operaty do bazy danych Ośrodka
 
@@ -18,7 +18,12 @@ Importuj zeskanowane operaty do bazy danych Ośrodka
 Do zrobienia
 
 * [ ] wybór użytkownika przypisanego do importu
-* [ ] wykrywanie powtórzonych i pustych operatów
+* [ ] wykrywanie pustych operatów
+
+2017-01-09 v1.2-beta
+
+* [x] wykrywanie powtórzonych operatów
+* [x] wykrywanie niepoprawnych numerów operatów
 
 2017-01-02 v1.1-beta
 

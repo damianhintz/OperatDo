@@ -477,7 +477,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menu;
             this.Name = "MainForm";
-            this.Text = "OperatDoOśrodka v1.1-beta - Importuj zeskanowane operaty do Ośrodka (2 stycznia 2" +
+            this.Text = "OperatDoOśrodka v1.2-beta - Importuj zeskanowane operaty do Ośrodka (9 stycznia 2" +
     "017)";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menu.ResumeLayout(false);

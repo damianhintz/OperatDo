@@ -30,6 +30,7 @@ namespace OśrodekDomena
         /// </summary>
         public IEnumerable<PlikOperatu> Pliki => _pliki;
         List<PlikOperatu> _pliki = new List<PlikOperatu>();
+        Dictionary<string, PlikOperatu> _indeksPlików = new Dictionary<string, PlikOperatu>();
 
         /// <summary>
         /// Folder zawierający pliki operatu.
@@ -50,15 +51,20 @@ namespace OśrodekDomena
         /// <summary>
         /// Dodaj zeskanowany dokument do operatu.
         /// </summary>
-        /// <param name="dokument"></param>
-        public void Dodaj(PlikOperatu dokument)
+        /// <param name="plik"></param>
+        public void Dodaj(PlikOperatu plik)
         {
-            if (dokument == null)
+            if (plik == null)
                 throw new ArgumentNullException(
-                    paramName: "dokument",
-                    message: "Dokument jest null");
-            dokument.Operat = this;
-            _pliki.Add(dokument);
+                    paramName: "plik",
+                    message: "Plik operatu jest null");
+            var nazwa = Path.GetFileNameWithoutExtension(plik.Plik).ToLower();
+            if (_indeksPlików.ContainsKey(nazwa))
+                throw new InvalidOperationException(
+                    message: "Operat '" + IdZasobu + "' zawiera już plik: " + nazwa);
+            _indeksPlików.Add(nazwa, plik);
+            plik.Operat = this;
+            _pliki.Add(plik);
         }
     }
 }

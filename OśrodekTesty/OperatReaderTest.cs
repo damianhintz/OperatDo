@@ -30,6 +30,33 @@ namespace OśrodekTesty
         }
 
         [TestMethod]
+        public void OperatyReader_ShouldReadOnlyFoldersWithP()
+        {
+            var operaty = new RepozytoriumOperatów();
+            var reader = new OperatReader(operaty);
+            operaty.Count().ShouldBe(0);
+            Should.Throw<ArgumentException>(() =>
+            {
+                reader.Wczytaj(folder: @"Samples\Pliki\K.19.316.16");
+            });
+            operaty.Count().ShouldBe(0);
+        }
+
+        [TestMethod]
+        public void OperatyReader_ShouldSkipTomFromFolderName()
+        {
+            var operaty = new RepozytoriumOperatów();
+            var reader = new OperatReader(operaty);
+            reader.Wczytaj(folder: @"Samples\Pliki\P.2801.2016.121_T1");
+            reader.Operaty.Count().ShouldBe(1);
+            var operat = operaty.Single();
+            operat.IdZasobu.ShouldBe("P.2801.2016.121");
+            operat.Folder.ShouldEndWith(@"Samples\Pliki\P.2801.2016.121_T1");
+            operat.Pliki.Count().ShouldBe(4);
+            reader.PlikiOperatów().Count().ShouldBe(4);
+        }
+
+        [TestMethod]
         public void OperatyReader_ShouldReadOperatWith3Files()
         {
             var operaty = new RepozytoriumOperatów();
@@ -44,7 +71,7 @@ namespace OśrodekTesty
         {
             var operaty = new RepozytoriumOperatów();
             var reader = new OperatReader(operaty);
-            reader.Wczytaj(folder: @"Samples\Pliki\PustyPlik");
+            reader.Wczytaj(folder: @"Samples\Pliki\PustyPlik\P.2801.2016.1");
             reader.Operaty.Count().ShouldBe(1);
             reader.PlikiOperatów().Count().ShouldBe(2);
             var pustePliki = reader.PustePliki();
@@ -57,7 +84,7 @@ namespace OśrodekTesty
         {
             var operaty = new RepozytoriumOperatów();
             var reader = new OperatReader(operaty);
-            reader.Wczytaj(folder: @"Samples\Pliki\DodatkowyPlik");
+            reader.Wczytaj(folder: @"Samples\Pliki\DodatkowyPlik\P.2801.2016.1");
             reader.Operaty.Count().ShouldBe(1);
             reader.PlikiOperatów().Count().ShouldBe(1);
             reader.PustePliki().Count().ShouldBe(0);
@@ -81,6 +108,32 @@ namespace OśrodekTesty
             var pusteOperaty = reader.PusteOperaty();
             pusteOperaty.Count().ShouldBe(1);
             pusteOperaty.Single().ShouldEndWith(@"\PustyOperat");
+        }
+
+        [TestMethod]
+        public void OperatyReader_ShouldDetectWrongNumberAndNotAddAnyOperats()
+        {
+            var operaty = new RepozytoriumOperatów();
+            var reader = new OperatReader(operaty);
+            operaty.Count().ShouldBe(0);
+            Should.Throw<ArgumentException>(() =>
+            {
+                reader.Wczytaj(folder: @"Samples\Pliki\BłędnyNumer");
+            });
+            operaty.Count().ShouldBe(0);
+        }
+
+        [TestMethod]
+        public void OperatyReader_ShouldDetectSameNumberAndNotAddAnyOperats()
+        {
+            var operaty = new RepozytoriumOperatów();
+            var reader = new OperatReader(operaty);
+            operaty.Count().ShouldBe(0);
+            Should.Throw<InvalidOperationException>(() =>
+            {
+                reader.Wczytaj(folder: @"Samples\Pliki\PowtórzonyNumer");
+            });
+            operaty.Count().ShouldBe(0);
         }
     }
 }

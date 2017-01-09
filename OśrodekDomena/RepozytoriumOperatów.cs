@@ -36,6 +36,11 @@ namespace OśrodekDomena
         List<Operat> _operaty = new List<Operat>();
         Dictionary<string, Operat> _indeksOperatów = new Dictionary<string, Operat>();
 
+        public bool Zawiera(string idZasobu)
+        {
+            return _indeksOperatów.ContainsKey(idZasobu);
+        }
+
         public void Dodaj(Operat operat)
         {
             if (operat == null)
